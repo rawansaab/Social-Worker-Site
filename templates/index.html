@@ -11,8 +11,21 @@
     מיומנויות ודרישות המוסדות.
   </p>
   <div class="hero-actions">
-    <a href="{{ url_for('students_form') }}" class="btn-primary">שאלון סטודנט</a>
-    <a href="{{ url_for('mentors_form') }}" class="btn-ghost">מיפוי מדריכים</a>
+    <!-- שאלון סטודנטים -->
+    <a href="https://www.studentssurvey.org"
+       class="btn-primary"
+       target="_blank"
+       rel="noopener noreferrer">
+      שאלון סטודנט
+    </a>
+
+    <!-- מיפוי מדריכים -->
+    <a href="https://social-worker-site.onrender.com"
+       class="btn-ghost"
+       target="_blank"
+       rel="noopener noreferrer">
+      מיפוי מדריכים
+    </a>
   </div>
 </section>
 
@@ -23,23 +36,17 @@
     <div class="step-card">
       <div class="step-icon">📝</div>
       <h3>שלב 1: מילוי שאלונים</h3>
-      <p>
-        סטודנטים ומדריכים ממלאים שאלונים מפורטים על העדפות, כישורים וצרכי המוסד.
-      </p>
+      <p>סטודנטים ומדריכים ממלאים שאלונים מפורטים על העדפות, כישורים וצרכי המוסד.</p>
     </div>
     <div class="step-card">
       <div class="step-icon">📊</div>
       <h3>שלב 2: ניתוח נתונים</h3>
-      <p>
-        המערכת אוספת ומנתחת את הנתונים באמצעות אלגוריתמים מתקדמים.
-      </p>
+      <p>המערכת אוספת ומנתחת את הנתונים באמצעות אלגוריתמים מתקדמים.</p>
     </div>
     <div class="step-card">
       <div class="step-icon">✅</div>
       <h3>שלב 3: שיבוץ חכם</h3>
-      <p>
-        שיבוץ אוטומטי ואופטימלי של סטודנטים למקומות התמחות מתאימים.
-      </p>
+      <p>שיבוץ אוטומטי ואופטימלי של סטודנטים למקומות התמחות מתאימים.</p>
     </div>
   </div>
 </section>
@@ -73,14 +80,22 @@
 
 <section class="cta">
   <h2>מוכנים להתחיל?</h2>
-  <p>
-    הצטרפו למערכת שלנו והפכו את תהליך השיבוץ לפשוט, מהיר ויעיל.
-  </p>
+  <p>הצטרפו למערכת שלנו והפכו את תהליך השיבוץ לפשוט, מהיר ויעיל.</p>
   <div class="cta-actions">
-    <a href="{{ url_for('students_form') }}" class="btn-light">מילוי שאלון סטודנט</a>
-    <a href="{{ url_for('mentors_form') }}" class="btn-light-outline">מילוי מיפוי מדריך</a>
+    <a href="https://www.studentssurvey.org"
+       class="btn-light"
+       target="_blank"
+       rel="noopener noreferrer">
+      מילוי שאלון סטודנט
+    </a>
+
+    <a href="https://social-worker-site.onrender.com"
+       class="btn-light-outline"
+       target="_blank"
+       rel="noopener noreferrer">
+      מילוי מיפוי מדריך
+    </a>
   </div>
 </section>
 
 {% endblock %}
-
