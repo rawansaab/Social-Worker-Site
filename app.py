@@ -13,34 +13,40 @@ from flask import (
     flash,
 )
 
-# יצירת האפליקציה
 app = Flask(__name__)
 
 # מפתח להצפנת session
 app.config["SECRET_KEY"] = os.environ.get("FLASK_SECRET", "devkey")
 
-# סיסמה סודית למרצים - מגיעה מרנדר (Environment Variable)
+# סיסמה סודית למרצים - מגיעה מ-Render
 LECTURER_SECRET = os.environ.get("LECTURER_SECRET")
-
 if not LECTURER_SECRET:
-    # אם שכחנו להגדיר ברנדר - נעצור כדי שלא ירוץ לא מאובטח
     raise RuntimeError("LECTURER_SECRET is not set in environment")
 
 
-# ---------- דף ראשי רגיל (תשאירי פה את הדף שלך) ----------
+# ---------- דף הבית ----------
 @app.route("/")
 def index():
-    # הדף הציבורי שלך (כמו בתמונה היפה)
     return render_template("index.html")
 
 
-# ---------- פונקציה לבדוק אם מרצה מחובר ----------
+# ---------- יצירת קשר ----------
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    if request.method == "POST":
+        # אפשר בעתיד לשמור / לשלוח מייל; כרגע רק הודעת אישור
+        name = request.form.get("name")
+        flash("הפנייה נשלחה בהצלחה. נחזור אליך בהקדם.", "success")
+        return redirect(url_for("contact"))
+    return render_template("contact.html")
+
+
+# ---------- דקורטור: דרוש חיבור מרצה ----------
 def lecturer_login_required(view_func):
     @wraps(view_func)
     def wrapper(*args, **kwargs):
         if session.get("is_lecturer"):
             return view_func(*args, **kwargs)
-        # אם לא מחובר -> מעבירים לדף התחברות
         return redirect(url_for("lecturer_login"))
     return wrapper
 
@@ -54,12 +60,12 @@ def lecturer_login():
         password = request.form.get("password", "")
 
         if password == LECTURER_SECRET:
-            # סימון ב-session שהמשתמש מרצה
             session["is_lecturer"] = True
             return redirect(url_for("lecturers_area"))
         else:
             error = "סיסמה שגויה. אנא בדקו עם רואן."
 
+    # שימי לב: כאן אנחנו טוענים את login.html כפי שקיים אצלך
     return render_template("login.html", error=error)
 
 
@@ -75,12 +81,9 @@ def logout():
 @app.route("/lecturers")
 @lecturer_login_required
 def lecturers_area():
-    # כאן תכניסי את מה שמיועד רק למרצים:
-    # טבלאות, קישורים לשאלונים, קבצים, וכו'
     return render_template("lecturers.html")
 
 
 # ---------- להרצה מקומית ----------
 if __name__ == "__main__":
-    # להרצה מקומית; ברנדר מריץ לפי ה-Start Command
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
