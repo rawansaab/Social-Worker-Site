@@ -96,9 +96,11 @@
   <form method="post">
     <label for="password">סיסמת מרצים</label>
     <input type="password" id="password" name="password" required placeholder="הקלד/י את הסיסמה הסודית">
+
     {% if error %}
       <div class="error">{{ error }}</div>
     {% endif %}
+
     <button type="submit">כניסה לאזור המרצים</button>
   </form>
 
