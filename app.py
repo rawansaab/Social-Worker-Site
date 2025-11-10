@@ -13,6 +13,7 @@ def index():
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
+        # כאן אפשר להוסיף שליחה למייל / שמירה
         flash("הפנייה נשלחה בהצלחה! נחזור אליך בהקדם.", "success")
         return redirect(url_for("contact"))
     return render_template("contact.html")
@@ -23,9 +24,8 @@ def login():
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "").strip()
 
-        # בדיקת דמו בסיסית: מייל של המכללה + סיסמה לא ריקה
+        # דמו בסיסי: מייל מכללת צפת + סיסמה לא ריקה
         if email.endswith("@zefat.ac.il") and password:
-            # הפניה למערכת המרצים האמיתית
             return redirect("https://students-placement-lecturer.onrender.com")
         else:
             flash("התחברות נכשלה. יש להזין מייל מכללת צפת וסיסמה.", "error")
@@ -35,4 +35,5 @@ def login():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # להרצה מקומית
+    app.run(host="0.0.0.0", port=5000, debug=True)
