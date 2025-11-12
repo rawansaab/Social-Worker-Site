@@ -47,13 +47,13 @@ body {
   top:0;
   z-index:20;
   display:flex;
-  justify-content:center; /* שונה למרכוז */
+  justify-content:space-between; /* הוחזר ליישור קצוות */
   align-items:center;
   padding:14px 7vw;
   background-color:rgba(255,255,255,0.96);
   backdrop-filter:blur(16px);
   box-shadow:0 2px 12px rgba(0,0,0,.02);
-  position: relative; /* הוסף עבור מיקום הניווט */
+  /* position: relative; הוסר */
 }
 .logo-wrap {
   display:flex;
@@ -62,7 +62,7 @@ body {
   text-decoration: none;
   color: inherit;
 }
-.logo-image { /* סגנון חדש ללוגו */
+.logo-image { /* סגנון ללוגו */
   width: 38px;
   height: 38px;
   object-fit: contain;
@@ -80,8 +80,8 @@ body {
   gap:18px;
   align-items:center;
   font-size:15px;
-  position: absolute; /* שונה למיקום מוחלט */
-  left: 7vw; /* יישור לשמאל */
+  /* position: absolute; הוסר */
+  /* left: 7vw; הוסר */
 }
 .nav-links a {
   text-decoration:none;
@@ -522,9 +522,9 @@ body.lecturer-area {
   padding: 16px 32px;
   border-bottom: 1px solid #e5e7eb;
   display: flex;
-  justify-content:center; /* שונה למרכוז */
+  justify-content:space-between; /* הוחזר ליישור קצוות */
   align-items: center;
-  position: relative; /* הוסף עבור מיקום הניווט */
+  /* position: relative; הוסר */
 }
 .lecturer-logo { 
   display: flex; 
@@ -533,7 +533,7 @@ body.lecturer-area {
   text-decoration: none; 
   color: inherit; 
 }
-.lecturer-logo .logo-image { /* סגנון חדש ללוגו */
+.lecturer-logo .logo-image { /* סגנון ללוגו */
   width: 38px;
   height: 38px;
   object-fit: contain;
@@ -546,8 +546,8 @@ body.lecturer-area {
   display: flex; 
   gap: 16px; 
   align-items: center; 
-  position: absolute; /* שונה למיקום מוחלט */
-  left: 32px; /* יישור לשמאל */
+  /* position: absolute; הוסר */
+  /* left: 32px; הוסר */
 }
 .lecturer-nav a { 
   text-decoration: none; 
@@ -625,12 +625,12 @@ table tr:nth-child(even) {
 @media (max-width:900px) {
   .topbar { 
     padding: 14px 24px; 
-    position: static; /* בטל מיקום יחסי במובייל */
+    /* position: static; לא נחוץ */
   }
   .nav-links { 
     display: none; /* הסתרת ניווט מורכב במובייל */
-    position: static; /* בטל מיקום אבסולוטי */
-    left: auto;
+    /* position: static; לא נחוץ */
+    /* left: auto; לא נחוץ */
   } 
 
   section { padding: 40px 24px; }
@@ -655,14 +655,14 @@ table tr:nth-child(even) {
     padding: 16px;
     flex-direction: column;
     gap: 12px;
-    position: static; /* בטל מיקום יחסי */
+    /* position: static; לא נחוץ */
   }
   .lecturer-nav {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-    position: static; /* בטל מיקום אבסולוטי */
-    left: auto;
+    /* position: static; לא נחוץ */
+    /* left: auto; לא נחוץ */
   }
   .lecturer-content {
     margin: 16px auto;
