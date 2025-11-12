@@ -1,19 +1,11 @@
 {% extends "base.html" %}
-<!doctype html>
-<html lang="he" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <title>מערכת שיבוץ אוטומטית – דף הבית</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+{% block title %}מערכת שיבוץ אוטומטית – דף הבית{% endblock %}
+{% block content %}
   <div class="page-wrap">
     <h1>מערכת שיבוץ אוטומטית</h1>
-    <p class="subtitle">תיאור קצר על המערכת. הגישה למערכת השיבוץ מוגבלת למרצים בלבד.</p>
+    <p class="subtitle">הגישה למערכת השיבוץ מוגבלת למרצים בלבד.</p>
     <div class="btn-wrap">
       <a class="primary-btn" href="{{ url_for('login') }}">🔐 כניסת מרצים</a>
     </div>
   </div>
-</body>
-</html>
 {% endblock %}
