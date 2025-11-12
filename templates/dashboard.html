@@ -1,0 +1,40 @@
+{% extends "lecturer_base.html" %}
+{% block title %}פנאל מרצים{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>פנאל מרצים</h1>
+  <p class="subtitle">ברוך הבא למערכת ניהול השיבוץ האוטומטי.</p>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card stat-highlight">
+    <div class="stat-label">סטודנטים רשומים</div>
+    <div class="stat-value">{{ stats.registered_students }}</div>
+    <div class="stat-desc">מילאו את השאלון</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">מדריכים רשומים</div>
+    <div class="stat-value">{{ stats.registered_mentors }}</div>
+    <div class="stat-desc">מקומות התמחות במערכת</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">אחוז הצלחה</div>
+    <div class="stat-value">{{ stats.success_rate }}%</div>
+    <div class="stat-desc">מהשיבוצים</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">שיבוצים בוצעו</div>
+    <div class="stat-value">{{ stats.placements_done }}</div>
+    <div class="stat-desc">סטודנטים שובצו</div>
+  </div>
+</div>
+
+<section class="card" style="margin-top: 32px;">
+  <h2>פעולות מהירות</h2>
+  <div class="btn-row" style="justify-content: flex-start; gap: 16px;">
+    <a class="primary-btn" href="{{ url_for('analytics') }}">📈 ניתוח קובץ שיבוץ</a>
+    <a class="primary-btn" href="{{ url_for('placement_system') }}" target="_blank">🧮 פתיחת מערכת השיבוץ</a>
+  </div>
+</section>
+{% endblock %}
