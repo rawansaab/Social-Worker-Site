@@ -1,25 +1,21 @@
-<!doctype html>
-<html lang="he" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <title>אימות מרצים</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-  <div class="page-wrap" style="max-width:640px">
-    <h1>אימות מרצים</h1>
-    <p class="subtitle">נא להזין את סיסמת המרצים (Second Factor).</p>
+{% extends "base.html" %}
+{% block title %}אימות מרצים{% endblock %}
 
-    <form method="post" class="upload-form">
-      <div class="field">
-        <label>סיסמת מרצים</label>
-        <input type="password" name="lecturer_secret" placeholder="lecturer_secret" required>
-      </div>
-      <div class="btn-wrap">
-        <button class="primary-btn" type="submit">כניסה למערכת</button>
-        <a class="btn-ghost" href="{{ url_for('logout') }}">חזור</a>
-      </div>
+{% block content %}
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-icon">🔑</div>
+    <h1>אימות מרצים</h1>
+    <p class="login-sub">נא להזין את סיסמת המרצים (Second Factor).</p>
+
+    <form method="post" class="login-form">
+      <label>סיסמת מרצים</label>
+      <input type="password" name="lecturer_secret" placeholder="lecturer_secret" required>
+
+      <button type="submit" class="btn-primary full">כניסה למערכת</button>
     </form>
+
+    <div class="login-note"><a href="{{ url_for('logout') }}">חזרה</a></div>
   </div>
-</body>
-</html>
+</div>
+{% endblock %}
