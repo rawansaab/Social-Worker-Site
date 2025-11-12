@@ -1,6 +1,7 @@
-# -*- coding: utf-8 -*-
-from flask import Flask, render_template, request, redirect, url_for, flash, Markup, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from markupsafe import Markup  # <-- התיקון כאן
 import os
+from whitenoise import WhiteNoise
 
 app = Flask(__name__)
 # ודא שמפתח זה מוגדר כמשתנה סביבה בסביבת הפרודקשן שלך
