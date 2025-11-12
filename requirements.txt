@@ -3,3 +3,6 @@ gunicorn
 pandas
 openpyxl
 whitenoise
+markupsafe
+gspread
+google-auth
