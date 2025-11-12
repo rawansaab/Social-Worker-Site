@@ -30,9 +30,11 @@
   </div>
 </div>
 
-{# 
-  מקטע "פעולות מהירות" הוסר מכאן 
-  כדי למנוע קריאה לפונקציות שכבר לא קיימות
-#}
-
+<section class="card" style="margin-top: 32px; text-align: center;">
+  <h2>פעולות מהירות</h2>
+  <div class="btn-row" style="justify-content: center;">
+    <a class="primary-btn" href="{{ url_for('analytics') }}">📈 ניתוח קובץ שיבוץ</a>
+    <a class="primary-btn" href="{{ url_for('placement_system') }}" target="_blank">🧮 פתיחת מערכת השיבוץ</a>
+  </div>
+</section>
 {% endblock %}
