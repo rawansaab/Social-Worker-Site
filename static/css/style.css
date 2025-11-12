@@ -47,13 +47,12 @@ body {
   top:0;
   z-index:20;
   display:flex;
-  justify-content:space-between; /* הוחזר ליישור קצוות */
+  justify-content:space-between; /* יישור לקצוות */
   align-items:center;
   padding:14px 7vw;
   background-color:rgba(255,255,255,0.96);
   backdrop-filter:blur(16px);
   box-shadow:0 2px 12px rgba(0,0,0,.02);
-  /* position: relative; הוסר */
 }
 .logo-wrap {
   display:flex;
@@ -80,8 +79,6 @@ body {
   gap:18px;
   align-items:center;
   font-size:15px;
-  /* position: absolute; הוסר */
-  /* left: 7vw; הוסר */
 }
 .nav-links a {
   text-decoration:none;
@@ -98,10 +95,15 @@ body {
   border:1px solid var(--accent);
   color:var(--accent);
 }
+
+/* --- ✨✨ שינוי לבקשתך ✨✨ --- */
 .btn-outline:hover {
-  background:var(--accent);
-  color:#fff;
+  background: #374151; /* רקע שחור-אפרפר */
+  color: #fff; /* טקסט לבן */
+  border-color: #374151; /* עדכון צבע המסגרת */
 }
+/* --- סוף השינוי --- */
+
 /* כפתור הרשמה ראשי בניווט */
 .nav-links a.btn-primary {
     padding: 6px 14px;
@@ -522,9 +524,8 @@ body.lecturer-area {
   padding: 16px 32px;
   border-bottom: 1px solid #e5e7eb;
   display: flex;
-  justify-content:space-between; /* הוחזר ליישור קצוות */
+  justify-content:space-between; /* יישור לקצוות */
   align-items: center;
-  /* position: relative; הוסר */
 }
 .lecturer-logo { 
   display: flex; 
@@ -546,8 +547,6 @@ body.lecturer-area {
   display: flex; 
   gap: 16px; 
   align-items: center; 
-  /* position: absolute; הוסר */
-  /* left: 32px; הוסר */
 }
 .lecturer-nav a { 
   text-decoration: none; 
@@ -620,17 +619,34 @@ table tr:nth-child(even) {
   background: #fdfcff;
 }
 
+/* --- עיצוב דף העלאת קובץ (Analytics) --- */
+
+/* מסתיר את כפתור ברירת המחדל של הדפדפן */
+#results_file_input {
+  display: none;
+}
+
+/* מעצב את התווית (label) כך שתיראה 
+  כמו כפתור ה-outline הקיים שלך
+*/
+#results_file_input + label.btn-outline {
+  cursor: pointer; /* הופך לסמן לחיצה */
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 999px;
+  display: inline-block;
+  gap: 8px;
+}
+
 
 /* --- Responsive --- */
 @media (max-width:900px) {
   .topbar { 
     padding: 14px 24px; 
-    /* position: static; לא נחוץ */
   }
   .nav-links { 
     display: none; /* הסתרת ניווט מורכב במובייל */
-    /* position: static; לא נחוץ */
-    /* left: auto; לא נחוץ */
   } 
 
   section { padding: 40px 24px; }
@@ -655,14 +671,11 @@ table tr:nth-child(even) {
     padding: 16px;
     flex-direction: column;
     gap: 12px;
-    /* position: static; לא נחוץ */
   }
   .lecturer-nav {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-    /* position: static; לא נחוץ */
-    /* left: auto; לא נחוץ */
   }
   .lecturer-content {
     margin: 16px auto;
@@ -674,23 +687,4 @@ table tr:nth-child(even) {
     .stats-grid {
         grid-template-columns: 1fr;
     }
-}
-/* --- עיצוב דף העלאת קובץ (Analytics) --- */
-
-/* מסתיר את כפתור ברירת המחדל של הדפדפן */
-#results_file_input {
-  display: none;
-}
-
-/* מעצב את התווית (label) כך שתיראה 
-  כמו כפתור ה-outline הקיים שלך
-*/
-#results_file_input + label.btn-outline {
-  cursor: pointer; /* הופך לסמן לחיצה */
-  padding: 12px 28px;
-  font-size: 16px;
-  font-weight: 500;
-  border-radius: 999px;
-  display: inline-block;
-  gap: 8px;
 }
