@@ -675,3 +675,22 @@ table tr:nth-child(even) {
         grid-template-columns: 1fr;
     }
 }
+/* --- עיצוב דף העלאת קובץ (Analytics) --- */
+
+/* מסתיר את כפתור ברירת המחדל של הדפדפן */
+#results_file_input {
+  display: none;
+}
+
+/* מעצב את התווית (label) כך שתיראה 
+  כמו כפתור ה-outline הקיים שלך
+*/
+#results_file_input + label.btn-outline {
+  cursor: pointer; /* הופך לסמן לחיצה */
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 999px;
+  display: inline-block;
+  gap: 8px;
+}
