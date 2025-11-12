@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}פנאל מרצים{% endblock %} - מערכת שיבוץ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    /* סגנונות בסיס לאזור הפנימי */
+    body { background-color: #f8fafc; }
+    .lecturer-header {
+      background: #fff;
+      padding: 16px 32px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .lecturer-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+    .lecturer-logo .logo-icon { font-size: 28px; }
+    .lecturer-logo .logo-title { font-size: 18px; font-weight: 700; }
+    .lecturer-nav { display: flex; gap: 16px; align-items: center; }
+    .lecturer-nav a { text-decoration: none; color: #374151; font-weight: 500; }
+    .lecturer-nav a.btn-outline {
+        padding: 6px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+    }
+    .lecturer-nav a.btn-primary {
+        padding: 6px 12px;
+        border-radius: 6px;
+    }
+    .lecturer-content {
+      max-width: 1200px;
+      margin: 32px auto;
+      padding: 0 32px;
+    }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+<header class="lecturer-header">
+  <a href="{{ url_for('dashboard') }}" class="lecturer-logo">
+    <div class="logo-icon">🎓</div>
+    <div class="logo-title">מערכת שיבוץ (מרצים)</div>
+  </a>
+  <nav class="lecturer-nav">
+    <a href="{{ url_for('dashboard') }}">פנאל מרצים</a>
+    <a href="{{ url_for('analytics') }}">ניתוח שיבוץ</a>
+    <a href="{{ url_for('placement_system') }}" class="btn-primary" target="_blank">🧮 פתיחת מערכת השיבוץ</a>
+    <a href="{{ url_for('logout') }}" class="btn-outline">יציאה</a>
+  </nav>
+</header>
+
+<main class="lecturer-content">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-wrap">
+        {% for cat, msg in messages %}
+          <div class="flash {{ cat }}">{{ msg }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  
+  {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>
