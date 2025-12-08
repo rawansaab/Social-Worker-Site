@@ -54,5 +54,53 @@
     </a>
   </div>
 </section>
+<!-- 🔹 ווידג'ט צ'אט צף למשתמש -->
+<div class="chat-launcher" id="chat-launcher">
+  <span class="chat-launcher-icon">💬</span>
+  <span class="chat-launcher-label">צ'אט</span>
+</div>
+
+<div class="chat-box" id="chat-box" aria-hidden="true">
+  <div class="chat-header">
+    <span>צ'אט מערכת השיבוץ</span>
+    <button type="button" class="chat-close" id="chat-close">×</button>
+  </div>
+
+  <div class="chat-messages" id="chat-messages">
+    <!-- הודעת פתיחה של הבוט -->
+    <div class="msg msg-bot">
+      <div class="msg-text">
+        ברוכים הבאים למערכת השיבוץ האוטומטית 🌸<br>
+        איך אפשר לעזור?<br>
+        אפשר לבחור שאלה מוכנה או לכתוב שאלה חופשית.
+      </div>
+    </div>
+
+    <!-- שאלות מוצעות -->
+    <div class="chat-suggestions">
+      <button type="button" class="suggestion-btn" data-q="איך עובד תהליך השיבוץ?">
+        איך עובד תהליך השיבוץ?
+      </button>
+      <button type="button" class="suggestion-btn" data-q="איך אני ממלא/ת את שאלון הסטודנט?">
+        איך אני ממלא/ת את שאלון הסטודנט?
+      </button>
+      <button type="button" class="suggestion-btn" data-q="למי פונים כשיש בעיה טכנית?">
+        למי פונים כשיש בעיה טכנית?
+      </button>
+    </div>
+  </div>
+
+  <form class="chat-input-row" id="chat-form">
+    <input
+      type="text"
+      id="chat-input"
+      placeholder="כתבו כאן את השאלה שלכם..."
+      autocomplete="off"
+    >
+    <button type="submit" class="chat-send-btn">שליחה</button>
+  </form>
+</div>
+
+{% endblock %}
 
 {% endblock %}
