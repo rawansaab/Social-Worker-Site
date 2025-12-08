@@ -14,7 +14,7 @@
     <a href="https://www.studentssurvey.org" class="btn-primary" target="_blank" rel="noopener noreferrer">
       שאלון סטודנט
     </a>
-    <a href="https://mentormappingsurvey.org" class="btn-ghost" target="_blank" rel="noopener noreferrer"> {# הקישור עודכן כאן #}
+    <a href="https://mentormappingsurvey.org" class="btn-ghost" target="_blank" rel="noopener noreferrer">
       מיפוי מדריכים
     </a>
   </div>
@@ -49,11 +49,12 @@
     <a href="https://www.studentssurvey.org" class="btn-light" target="_blank" rel="noopener noreferrer">
       מילוי שאלון סטודנט
     </a>
-    <a href="https://mentormappingsurvey.org" class="btn-light-outline" target="_blank" rel="noopener noreferrer"> {# הקישור עודכן כאן #}
+    <a href="https://mentormappingsurvey.org" class="btn-light-outline" target="_blank" rel="noopener noreferrer">
       מילוי מיפוי מדריך
     </a>
   </div>
 </section>
+
 <!-- 🔹 ווידג'ט צ'אט צף למשתמש -->
 <div class="chat-launcher" id="chat-launcher">
   <span class="chat-launcher-icon">💬</span>
@@ -101,6 +102,71 @@
   </form>
 </div>
 
-{% endblock %}
+{% endblock %}  {# 💡 סגירת block content כאן #}
 
+{% block scripts %}
+<script>
+  (function() {
+    const launcher = document.getElementById('chat-launcher');
+    const chatBox  = document.getElementById('chat-box');
+    const closeBtn = document.getElementById('chat-close');
+    const form     = document.getElementById('chat-form');
+    const input    = document.getElementById('chat-input');
+    const messages = document.getElementById('chat-messages');
+    const suggestionButtons = document.querySelectorAll('.suggestion-btn');
+
+    function openChat() {
+      chatBox.classList.add('open');
+      chatBox.setAttribute('aria-hidden', 'false');
+      input.focus();
+    }
+
+    function closeChat() {
+      chatBox.classList.remove('open');
+      chatBox.setAttribute('aria-hidden', 'true');
+    }
+
+    function addMessage(text, from) {
+      if (!text.trim()) return;
+
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'msg ' + (from === 'bot' ? 'msg-bot' : 'msg-user');
+
+      const inner = document.createElement('div');
+      inner.className = 'msg-text';
+      inner.innerHTML = text.replace(/\n/g, '<br>');
+
+      msgDiv.appendChild(inner);
+      messages.appendChild(msgDiv);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function botReply(userText) {
+      const reply =
+        'תודה על השאלה 🙏<br>' +
+        'כרגע הצ׳אט שלנו הוא דמו. עבור שאלות דחופות אפשר לפנות ל-social@zefat.ac.il או לטופס "יצירת קשר".';
+      addMessage(reply, 'bot');
+    }
+
+    launcher.addEventListener('click', openChat);
+    closeBtn.addEventListener('click', closeChat);
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, 'user');
+      input.value = '';
+      botReply(text);
+    });
+
+    suggestionButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const q = this.dataset.q || this.innerText;
+        addMessage(q, 'user');
+        botReply(q);
+      });
+    });
+  })();
+</script>
 {% endblock %}
