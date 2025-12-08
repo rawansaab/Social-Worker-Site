@@ -2,10 +2,35 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from markupsafe import Markup  # <-- התיקון כאן
 import os
 from whitenoise import WhiteNoise
+import smtplib
+from email.message import EmailMessage
+from itsdangerous import URLSafeTimedSerializer
 
 app = Flask(__name__)
 # ודא שמפתח זה מוגדר כמשתנה סביבה בסביבת הפרודקשן שלך
 app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY", "change-this-key-in-development")
+# מחולל טוקנים לקישורי איפוס
+serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+def send_reset_email(to_email, reset_url):
+    smtp_host = os.getenv("SMTP_HOST")
+    smtp_port = int(os.getenv("SMTP_PORT", "587"))
+    smtp_user = os.getenv("SMTP_USER")
+    smtp_pass = os.getenv("SMTP_PASS")
+    from_email = os.getenv("FROM_EMAIL", smtp_user)
+
+    msg = EmailMessage()
+    msg["Subject"] = "איפוס סיסמה למערכת שיבוץ סטודנטים"
+    msg["From"] = from_email
+    msg["To"] = to_email
+    msg.set_content(
+        f"""שלום,\n\nהתבקש איפוס סיסמה למערכת.\n\nלקישור לאיפוס סיסמה לחצי כאן:\n{reset_url}\n\nאם לא את ביקשת – ניתן להתעלם מהודעה זו."""
+    )
+
+    with smtplib.SMTP(smtp_host, smtp_port) as server:
+        server.starttls()
+        server.login(smtp_user, smtp_pass)
+        server.send_message(msg)
 
 @app.before_request
 def maintenance_mode():
@@ -99,17 +124,36 @@ def forgot_password():
     if request.method == "POST":
         email = request.form.get("email")
 
-        # בדמו – רק מציגים הודעה. 
-        # כאן אפשר להוסיף לוגיקה אמיתית לשליחת מייל Reset.
-        flash("אם האימייל קיים במערכת – נשלח אליך קישור לאיפוס סיסמה.", "success")
+        if not email:
+            flash("נא להזין כתובת דוא\"ל.", "error")
+            return redirect(url_for("forgot_password"))
+
+        # כאן בד״כ בודקים שהאימייל קיים ב-DB
+        # user = User.query.filter_by(email=email).first()
+        # if not user: ...
+
+        # מייצרים טוקן מבוסס אימייל
+        token = serializer.dumps(email, salt="password-reset")
+        reset_url = url_for("reset_password", token=token, _external=True)
+
+        try:
+            send_reset_email(email, reset_url)
+            flash("נשלח קישור לאיפוס סיסמה לכתובת הדוא\"ל המוסדית (אם קיימת במערכת).", "success")
+        except Exception as e:
+            print("MAIL ERROR:", e)
+            flash("אירעה שגיאה בשליחת המייל. נסי שוב מאוחר יותר.", "error")
+
         return redirect(url_for("forgot_password"))
 
     return render_template("forgot_password.html")
-
-
 @app.route("/reset-password/<token>", methods=["GET", "POST"])
 def reset_password(token):
-    # בדמו לא בודקים token אמיתי
+    try:
+        email = serializer.loads(token, salt="password-reset", max_age=3600)  # שעה
+    except Exception:
+        flash("קישור האיפוס פג תוקף או לא תקין.", "error")
+        return redirect(url_for("forgot_password"))
+
     if request.method == "POST":
         new_pass = request.form.get("password")
         confirm_pass = request.form.get("confirm_password")
@@ -118,8 +162,12 @@ def reset_password(token):
             flash("הסיסמאות אינן תואמות.", "error")
             return redirect(request.url)
 
-        # כאן תבוא לוגיקת שמירת הסיסמה החדשה במסד הנתונים
-        flash("סיסמה אופסה בהצלחה! ניתן להתחבר כעת.", "success")
+        # כאן תשמרי את הסיסמה החדשה עבור המשתמש עם האימייל הזה ב-DB
+        # user = User.query.filter_by(email=email).first()
+        # user.password = hash_password(new_pass)
+        # db.session.commit()
+
+        flash("הסיסמה אופסה בהצלחה! אפשר להתחבר כעת.", "success")
         return redirect(url_for("login"))
 
     return render_template("reset_password.html")
