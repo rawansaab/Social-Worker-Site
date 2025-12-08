@@ -92,6 +92,37 @@ def login():
             flash("נא למלא אימייל וסיסמה.", "error")
             
     return render_template("login.html")
+# --- שכחתי סיסמה ---
+
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "POST":
+        email = request.form.get("email")
+
+        # בדמו – רק מציגים הודעה. 
+        # כאן אפשר להוסיף לוגיקה אמיתית לשליחת מייל Reset.
+        flash("אם האימייל קיים במערכת – נשלח אליך קישור לאיפוס סיסמה.", "success")
+        return redirect(url_for("forgot_password"))
+
+    return render_template("forgot_password.html")
+
+
+@app.route("/reset-password/<token>", methods=["GET", "POST"])
+def reset_password(token):
+    # בדמו לא בודקים token אמיתי
+    if request.method == "POST":
+        new_pass = request.form.get("password")
+        confirm_pass = request.form.get("confirm_password")
+
+        if new_pass != confirm_pass:
+            flash("הסיסמאות אינן תואמות.", "error")
+            return redirect(request.url)
+
+        # כאן תבוא לוגיקת שמירת הסיסמה החדשה במסד הנתונים
+        flash("סיסמה אופסה בהצלחה! ניתן להתחבר כעת.", "success")
+        return redirect(url_for("login"))
+
+    return render_template("reset_password.html")
 
 @app.route("/verify-secret", methods=["GET", "POST"])
 def verify_secret():
