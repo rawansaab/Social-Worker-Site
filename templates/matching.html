@@ -102,7 +102,7 @@
   </form>
 </div>
 
-{% endblock %}  {# 💡 סגירת block content כאן #}
+{% endblock %}
 
 {% block scripts %}
 <script>
@@ -148,25 +148,27 @@
       addMessage(reply, 'bot');
     }
 
-    launcher.addEventListener('click', openChat);
-    closeBtn.addEventListener('click', closeChat);
+    if (launcher && chatBox && closeBtn && form && input && messages) {
+      launcher.addEventListener('click', openChat);
+      closeBtn.addEventListener('click', closeChat);
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const text = input.value.trim();
-      if (!text) return;
-      addMessage(text, 'user');
-      input.value = '';
-      botReply(text);
-    });
-
-    suggestionButtons.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const q = this.dataset.q || this.innerText;
-        addMessage(q, 'user');
-        botReply(q);
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text) return;
+        addMessage(text, 'user');
+        input.value = '';
+        botReply(text);
       });
-    });
+
+      suggestionButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const q = this.dataset.q || this.innerText;
+          addMessage(q, 'user');
+          botReply(q);
+        });
+      });
+    }
   })();
 </script>
 {% endblock %}
