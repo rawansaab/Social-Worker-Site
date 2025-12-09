@@ -856,3 +856,14 @@ table tr:nth-child(even) {
     right: 12px;
   }
 }
+/* מעטפת לגרפים בדשבורד מרצים */
+.chart-container {
+  position: relative;
+  height: 320px;        /* גובה נוח – אפשר לשחק עם זה */
+  margin: 0 auto;
+}
+
+/* בקארד של הגרפים – שיהיה קצת יותר מרווח */
+.card.chart-card {
+  padding-top: 32px;
+}
