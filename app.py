@@ -5,6 +5,7 @@ from whitenoise import WhiteNoise
 import smtplib
 from email.message import EmailMessage
 from itsdangerous import URLSafeTimedSerializer
+import pandas as pd
 
 app = Flask(__name__)
 # ודא שמפתח זה מוגדר כמשתנה סביבה בסביבת הפרודקשן שלך
@@ -223,47 +224,110 @@ def dashboard():
     }
     return render_template("dashboard.html", stats=stats)
 
+
 @app.route("/analytics", methods=["GET", "POST"])
 def analytics():
     auth_redirect = check_auth()
-    if auth_redirect: return auth_redirect
+    if auth_redirect:
+        return auth_redirect
 
     if request.method == "POST":
         results_file = request.files.get('results_file')
-        if not results_file:
+        if not results_file or results_file.filename == "":
             return render_template("analytics.html", error="לא נבחר קובץ.")
-        
-        # כאן תהיה הלוגיקה של ניתוח הקובץ (pandas, etc.)
-        # ...
-        
-        # בדמו, נציג נתונים מזויפים
+
+        filename = results_file.filename.lower()
+
+        try:
+            # קריאת הקובץ לפי הסיומת
+            if filename.endswith(".xlsx") or filename.endswith(".xls"):
+                df = pd.read_excel(results_file)
+            else:
+                # ברירת מחדל – CSV
+                df = pd.read_csv(results_file)
+        except Exception as e:
+            print("ANALYTICS PARSE ERROR:", e)
+            return render_template(
+                "analytics.html",
+                error="שגיאה בקריאת הקובץ. ודאו שמדובר בקובץ CSV / XLSX שהורד מהמערכת."
+            )
+
+        # בדיקה שיש עמודות חובה
+        required_cols = ["שם מקום ההתמחות", "תחום התמחות"]
+        missing = [c for c in required_cols if c not in df.columns]
+        if missing:
+            return render_template(
+                "analytics.html",
+                error=f"הקובץ לא מכיל את העמודות הדרושות: {', '.join(missing)}"
+            )
+
+        # האם קיימת עמודת 'אחוז התאמה'
+        has_score = "אחוז התאמה" in df.columns
+
+        # טבלה: סטודנטים לכל מקום התמחות
+        by_site = (
+            df.groupby("שם מקום ההתמחות")
+              .size()
+              .reset_index(name="מספר סטודנטים")
+        )
+
+        # טבלה: סטודנטים לפי תחום התמחות
+        by_field = (
+            df.groupby("תחום התמחות")
+              .size()
+              .reset_index(name="מספר סטודנטים")
+        )
+
+        score_avg_table = []
+        avg_labels = []
+        avg_values = []
+
+        if has_score:
+            # המרה למספרים ליתר ביטחון
+            df["אחוז התאמה"] = pd.to_numeric(df["אחוז התאמה"], errors="coerce")
+
+            score_avg = (
+                df.dropna(subset=["אחוז התאמה"])
+                  .groupby("שם מקום ההתמחות")["אחוז התאמה"]
+                  .mean()
+                  .round(1)
+                  .reset_index(name="ממוצע התאמה")
+            )
+
+            # טבלה – עם % לתצוגה
+            score_avg_table = score_avg.copy()
+            score_avg_table["ממוצע התאמה"] = (
+                score_avg_table["ממוצע התאמה"].astype(str) + "%"
+            )
+            score_avg_table = score_avg_table.to_dict(orient="records")
+
+            # נתונים לגרף
+            avg_labels = score_avg["שם מקום ההתמחות"].tolist()
+            avg_values = score_avg["ממוצע התאמה"].tolist()
+
         tables = {
-            "cols": {"site": "מקום הכשרה", "field": "תחום התמחות"},
-            "by_site": [
-                {"מקום הכשרה": "בית חולים א'", "מספר סטודנטים": 5},
-                {"מקום הכשרה": "לשכת רווחה ב'", "מספר סטודנטים": 3}
-            ],
-            "by_field": [
-                {"תחום התמחות": "ילד ונוער", "מספר סטודנטים": 4},
-                {"תחום התמחות": "קשישים", "מספר סטודנטים": 4}
-            ],
-            "score_avg": [
-                {"מקום הכשרה": "בית חולים א'", "ממוצע התאמה": "85.0%"},
-                {"מקום הכשרה": "לשכת רווחה ב'", "ממוצע התאמה": "92.5%"}
-            ]
+            "cols": {
+                "site": "שם מקום ההתמחות",
+                "field": "תחום התמחות",
+            },
+            "by_site": by_site.to_dict(orient="records"),
+            "by_field": by_field.to_dict(orient="records"),
+            "score_avg": score_avg_table,
         }
+
         charts = {
-            "site_labels": ["בית חולים א'", "לשכת רווחה ב'"],
-            "site_values": [5, 3],
-            "field_labels": ["ילד ונוער", "קשישים"],
-            "field_values": [4, 4],
-            "avg_labels": ["בית חולים א'", "לשכת רווחה ב'"],
-            "avg_values": [85.0, 92.5]
+            "site_labels": by_site["שם מקום ההתמחות"].tolist(),
+            "site_values": by_site["מספר סטודנטים"].tolist(),
+            "field_labels": by_field["תחום התמחות"].tolist(),
+            "field_values": by_field["מספר סטודנטים"].tolist(),
+            "avg_labels": avg_labels,
+            "avg_values": avg_values,
         }
+
         return render_template("analytics.html", tables=tables, charts=charts)
 
+    # GET – דף ריק ללא תוצאות
     return render_template("analytics.html")
-
 @app.route("/placement-system")
 def placement_system():
     auth_redirect = check_auth()
