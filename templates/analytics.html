@@ -78,53 +78,176 @@
   </section>
   {% endif %}
 
-  <section class="card">
-    <h2>📊 גרפים</h2>
-    <div style="max-width:1000px;margin-inline:auto">
-      <canvas id="chartSites"></canvas>
-    </div>
-    <div style="height:24px"></div>
-    <div style="max-width:1000px;margin-inline:auto">
-      <canvas id="chartFields"></canvas>
-    </div>
-    {% if charts.avg_labels|length > 0 %}
-    <div style="height:24px"></div>
-    <div style="max-width:1000px;margin-inline:auto">
-      <canvas id="chartAvg"></canvas>
-    </div>
-    {% endif %}
-  </section>
+<section class="card chart-card">
+  <h2>📊 גרפים</h2>
 
-  <script>
-    const charts = {{ charts|tojson }};
-    const ctx1 = document.getElementById('chartSites');
-    new Chart(ctx1, {
-      type: 'bar',
-      data: { labels: charts.site_labels, datasets: [{ label: 'מספר סטודנטים', data: charts.site_values }] },
-      options: { responsive: true }
-    });
-    const ctx2 = document.getElementById('chartFields');
-    new Chart(ctx2, {
-      type: 'bar',
-      data: { labels: charts.field_labels, datasets: [{ label: 'מספר סטודנטים', data: charts.field_values }] },
-      options: { responsive: true }
-    });
-    if (charts.avg_labels && charts.avg_labels.length){
-      const ctx3 = document.getElementById('chartAvg');
-      new Chart(ctx3, {
-        type: 'line',
-        data: { labels: charts.avg_labels, datasets: [{ label: 'ממוצע התאמה', data: charts.avg_values }] },
-        options: { responsive: true }
-      });
-    }
-  </script>
-{% endif %}
+  <div class="chart-container">
+    <canvas id="chartSites"></canvas>
+  </div>
+
+  <div style="height:24px"></div>
+
+  <div class="chart-container">
+    <canvas id="chartFields"></canvas>
+  </div>
+
+  {% if charts.avg_labels|length > 0 %}
+  <div style="height:24px"></div>
+
+  <div class="chart-container">
+    <canvas id="chartAvg"></canvas>
+  </div>
+  {% endif %}
+</section>
+
 
 <script>
-  document.getElementById('results_file_input').addEventListener('change', function() {
-    var fileName = this.files[0] ? this.files[0].name : 'לא נבחר קובץ';
-    document.getElementById('file-name-display').textContent = fileName;
+  const charts = {{ charts|tojson }};
+
+  // פונטים ונראות כללית
+  Chart.defaults.font.family = "'Heebo', system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
+  Chart.defaults.font.size = 13;
+  Chart.defaults.color = "#4b5563";
+
+  // צבעים לפי ה־CSS variables שלך
+  const styles = getComputedStyle(document.documentElement);
+  const barColor = styles.getPropertyValue("--accent") || "#9b6bff";
+  const barBorder = styles.getPropertyValue("--primary") || "#d76fd4";
+
+  const baseOptions = {
+    responsive: true,
+    maintainAspectRatio: false,  // שנוכל לשלוט בגובה דרך CSS
+    layout: {
+      padding: { top: 10, right: 20, bottom: 10, left: 10 }
+    },
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          usePointStyle: true,
+          boxWidth: 14
+        }
+      },
+      tooltip: {
+        callbacks: {
+          // תצוגת טולטיפ יפה
+          label: function(ctx) {
+            const label = ctx.dataset.label || "";
+            const value = ctx.parsed.y;
+            return `${label}: ${value}`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          autoSkip: false,   // שלא יעלם מרכז משפחה וכו'
+          maxRotation: 0,
+          minRotation: 0
+        }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1
+        },
+        grid: {
+          color: "rgba(148, 163, 184, 0.25)"
+        }
+      }
+    }
+  };
+
+  // גרף סטודנטים לכל מקום
+  const ctx1 = document.getElementById("chartSites").getContext("2d");
+  new Chart(ctx1, {
+    type: "bar",
+    data: {
+      labels: charts.site_labels,
+      datasets: [{
+        label: "מספר סטודנטים",
+        data: charts.site_values,
+        backgroundColor: barColor.trim() + "55",   // שקיפות קלה
+        borderColor: barBorder.trim(),
+        borderWidth: 1.5,
+        borderRadius: 6
+      }]
+    },
+    options: baseOptions
   });
+
+  // גרף סטודנטים לפי תחום התמחות
+  const ctx2 = document.getElementById("chartFields").getContext("2d");
+  new Chart(ctx2, {
+    type: "bar",
+    data: {
+      labels: charts.field_labels,
+      datasets: [{
+        label: "מספר סטודנטים",
+        data: charts.field_values,
+        backgroundColor: barColor.trim() + "55",
+        borderColor: barBorder.trim(),
+        borderWidth: 1.5,
+        borderRadius: 6
+      }]
+    },
+    options: baseOptions
+  });
+
+  // גרף ממוצע התאמה באחוזים (אם קיים)
+  if (charts.avg_labels && charts.avg_labels.length) {
+    const ctx3 = document.getElementById("chartAvg").getContext("2d");
+
+    const avgOptions = {
+      ...baseOptions,
+      scales: {
+        x: baseOptions.scales.x,
+        y: {
+          beginAtZero: true,
+          suggestedMax: 100,
+          ticks: {
+            callback: (value) => value + "%",
+            stepSize: 10
+          },
+          grid: {
+            color: "rgba(148, 163, 184, 0.25)"
+          }
+        }
+      },
+      plugins: {
+        ...baseOptions.plugins,
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              const label = ctx.dataset.label || "";
+              const value = ctx.parsed.y;
+              return `${label}: ${value}%`;
+            }
+          }
+        }
+      }
+    };
+
+    new Chart(ctx3, {
+      type: "line",
+      data: {
+        labels: charts.avg_labels,
+        datasets: [{
+          label: "ממוצע התאמה",
+          data: charts.avg_values,
+          fill: false,
+          borderColor: barBorder.trim(),
+          borderWidth: 2.5,
+          tension: 0.35,
+          pointRadius: 4,
+          pointHoverRadius: 6
+        }]
+      },
+      options: avgOptions
+    });
+  }
 </script>
 
+{% endif %} 
 {% endblock %}
