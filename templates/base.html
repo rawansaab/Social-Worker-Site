@@ -4,12 +4,15 @@
   <meta charset="utf-8">
   <title>{% block title %}מערכת שיבוץ אוטומטית{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=50">
   {% block head %}{% endblock %}
 </head>
+
 <body>
 
 <header class="topbar">
@@ -25,7 +28,7 @@
     <a href="{{ url_for('index') }}">דף הבית</a>
     <a href="{{ url_for('contact') }}">יצירת קשר</a>
     <a href="{{ url_for('login') }}" class="btn-outline">כניסת מרצים</a>
-    <a href="{{ url_for('register') }}" class="btn-primary">הרשמה</a>
+    <a href="{{ url_for('register') }}" class="btn-primary nav-btn">הרשמה</a>
   </nav>
 </header>
 
@@ -44,22 +47,27 @@
 </main>
 
 <footer class="site-footer">
-  <div class="footer-col">
-    <h3>מערכת שיבוץ אוטומטית</h3>
-    <p>מערכת חכמה לשיבוץ אוטומטי של סטודנטים למקומות התמחות בעבודה סוציאלית.</p>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h3>מערכת שיבוץ אוטומטית</h3>
+      <p>מערכת חכמה לשיבוץ סטודנטים למקומות התמחות בעבודה סוציאלית.</p>
+    </div>
+
+    <div class="footer-col">
+      <h3>קישורים מהירים</h3>
+      <a href="https://www.studentssurvey.org" target="_blank" rel="noopener noreferrer">שאלון סטודנט</a>
+      <a href="https://mentormappingsurvey.org" target="_blank" rel="noopener noreferrer">מיפוי מדריכים</a>
+      <a href="{{ url_for('login') }}">כניסת מרצים</a>
+    </div>
+
+    <div class="footer-col">
+      <h3>פרטי התקשרות</h3>
+      <p>social@zefat.ac.il</p>
+      <p>04-6821111</p>
+      <p>מכללת צפת, ישראל</p>
+    </div>
   </div>
-  <div class="footer-col">
-    <h3>קישורים מהירים</h3>
-    <a href="https://www.studentssurvey.org" target="_blank" rel="noopener noreferrer">שאלון סטודנט</a>
-    <a href="https://mentormappingsurvey.org" target="_blank" rel="noopener noreferrer">מיפוי מדריכים</a>
-    <a href="{{ url_for('index') }}">מערכת השיבוץ</a>
-  </div>
-  <div class="footer-col">
-    <h3>פרטי התקשרות</h3>
-    <p>social@zefat.ac.il</p>
-    <p>04-6821111</p>
-    <p>מכללת צפת, ישראל</p>
-  </div>
+
   <div class="footer-bottom">
     © 2025 מכללת צפת – החוג לעבודה סוציאלית. כל הזכויות שמורות.
   </div>
