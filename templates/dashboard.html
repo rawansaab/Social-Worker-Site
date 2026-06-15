@@ -1,41 +1,100 @@
 {% extends "lecturer_base.html" %}
-{% block title %}פנאל מרצים{% endblock %}
+{% block title %}פאנל מרצים{% endblock %}
 
 {% block content %}
-<div class="page-header">
-  <h1>פנאל מרצים</h1>
-  <p class="subtitle">ברוך הבא למערכת ניהול השיבוץ האוטומטי.</p>
+
+<div class="page-header center">
+  <span class="eyebrow">אזור מרצים</span>
+  <h1>פאנל מרצים</h1>
+  <p class="subtitle">מרכז ניהול ובקרה לתהליך השיבוץ האוטומטי.</p>
 </div>
 
-<div class="stats-grid">
+<div class="stats-grid dashboard-stats">
   <div class="stat-card stat-highlight">
-    <div class="stat-label">סטודנטים רשומים</div>
+    <div class="stat-icon">👩‍🎓</div>
+    <div class="stat-label">סטודנטים בקובץ האחרון</div>
     <div class="stat-value">{{ stats.registered_students }}</div>
-    <div class="stat-desc">מילאו את השאלון</div>
+    <div class="stat-desc">לפי קובץ השיבוץ/ניתוח האחרון</div>
   </div>
+
   <div class="stat-card">
-    <div class="stat-label">מדריכים רשומים</div>
+    <div class="stat-icon">🧑‍🏫</div>
+    <div class="stat-label">מדריכים</div>
     <div class="stat-value">{{ stats.registered_mentors }}</div>
-    <div class="stat-desc">מקומות התמחות במערכת</div>
+    <div class="stat-desc">מדריכים שזוהו בקובץ</div>
   </div>
+
   <div class="stat-card">
-    <div class="stat-label">אחוז הצלחה</div>
-    <div class="stat-value">{{ stats.success_rate }}</div>
-    <div class="stat-desc">מהשיבוצים</div>
+    <div class="stat-icon">🏫</div>
+    <div class="stat-label">מקומות התמחות</div>
+    <div class="stat-value">{{ stats.registered_sites }}</div>
+    <div class="stat-desc">מקומות הכשרה פעילים</div>
   </div>
+
   <div class="stat-card">
+    <div class="stat-icon">✅</div>
     <div class="stat-label">שיבוצים בוצעו</div>
     <div class="stat-value">{{ stats.placements_done }}</div>
-    <div class="stat-desc">סטודנטים שובצו</div>
+    <div class="stat-desc">סטודנטים ששובצו בפועל</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">📈</div>
+    <div class="stat-label">אחוז הצלחה</div>
+    <div class="stat-value">{{ stats.success_rate }}</div>
+    <div class="stat-desc">מתוך כלל הרשומות בקובץ</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">⭐</div>
+    <div class="stat-label">ממוצע התאמה</div>
+    <div class="stat-value">{{ stats.avg_score }}</div>
+    <div class="stat-desc">לפי אחוזי ההתאמה בקובץ</div>
   </div>
 </div>
 
-<section class="card" style="margin-top: 32px; text-align: center;">
-  <h2>פעולות מהירות</h2>
-  <div class="btn-row" style="justify-content: center;">
-    {# הסדר הוחלף לבקשתך #}
-    <a class="primary-btn" href="{{ url_for('placement_system') }}" target="_blank">🧮 פתיחת מערכת השיבוץ</a>
-    <a class="primary-btn" href="{{ url_for('analytics') }}">📈 ניתוח קובץ שיבוץ</a>
+<section class="card dashboard-card">
+  <div class="section-heading">
+    <h2>פעולות מהירות</h2>
+    <p class="section-sub">בחרי פעולה להמשך העבודה עם המערכת</p>
+  </div>
+
+  <div class="quick-actions">
+    <a class="action-card" href="{{ url_for('placement_system') }}" target="_blank">
+      <span>🧮</span>
+      <strong>פתיחת מערכת השיבוץ</strong>
+      <small>מעבר למערכת החישוב והפקת קובצי השיבוץ</small>
+    </a>
+
+    <a class="action-card" href="{{ url_for('analytics') }}">
+      <span>📈</span>
+      <strong>ניתוח קובץ שיבוץ</strong>
+      <small>העלאת קובץ וקבלת דוחות, גרפים ותובנות</small>
+    </a>
+
+    <a class="action-card" href="https://www.studentssurvey.org" target="_blank">
+      <span>📝</span>
+      <strong>שאלון סטודנטים</strong>
+      <small>מעבר לטופס מילוי פרטי הסטודנטים</small>
+    </a>
+
+    <a class="action-card" href="https://mentormappingsurvey.org" target="_blank">
+      <span>🏫</span>
+      <strong>מיפוי מדריכים</strong>
+      <small>מעבר לטופס מקומות הכשרה ומדריכים</small>
+    </a>
   </div>
 </section>
+
+<section class="card info-card">
+  <h2>עדכון נתונים</h2>
+  <p>
+    עדכון אחרון של נתוני הפאנל:
+    <strong>{{ stats.last_update }}</strong>
+  </p>
+  <p class="section-sub">
+    כדי לעדכן את המספרים בפאנל, יש להיכנס לניתוחים סטטיסטיים ולהעלות קובץ תוצאות שיבוץ עדכני.
+  </p>
+</section>
+
 {% endblock %}
