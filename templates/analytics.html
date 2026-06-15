@@ -3,26 +3,200 @@
 
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  .analytics-hero {
+    text-align: center;
+    padding: 56px 16px 28px;
+  }
+
+  .analytics-hero h1 {
+    margin: 12px 0 10px;
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    line-height: 1.1;
+    font-weight: 900;
+    color: #141322;
+  }
+
+  .analytics-hero p {
+    color: #64748b;
+    font-size: 18px;
+    margin: 0 auto;
+    max-width: 760px;
+  }
+
+  .analytics-upload-card {
+    max-width: 760px;
+    margin: 24px auto 40px;
+  }
+
+  .analytics-upload {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: end;
+  }
+
+  #results_file_input {
+    display: none;
+  }
+
+  .file-upload-btn {
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 22px;
+    border-radius: 999px;
+    border: 1px solid #eadcff;
+    background: #fff;
+    color: #141322;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .analytics-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .mini-stat {
+    background: #fff;
+    border-radius: 22px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+    border: 1px solid #e5e7eb;
+  }
+
+  .mini-stat span {
+    display: block;
+    font-size: 26px;
+    margin-bottom: 6px;
+  }
+
+  .mini-stat small {
+    display: block;
+    color: #64748b;
+    font-weight: 700;
+  }
+
+  .mini-stat strong {
+    display: block;
+    font-size: 28px;
+    font-weight: 900;
+    color: #141322;
+  }
+
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+  }
+
+  .insight-item {
+    background: #fbfaff;
+    border: 1px solid #eadcff;
+    border-radius: 18px;
+    padding: 16px;
+  }
+
+  .insight-item strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #141322;
+  }
+
+  .insight-item span {
+    color: #64748b;
+    font-weight: 700;
+  }
+
+  .chart-controls {
+    display: grid;
+    grid-template-columns: 220px 1fr auto;
+    gap: 14px;
+    align-items: end;
+  }
+
+  .analytics-charts {
+    padding: 0;
+  }
+
+  .chart-container {
+    position: relative;
+    height: 350px;
+  }
+
+  .chart-container.large {
+    height: 430px;
+  }
+
+  .chart-container.small-chart {
+    max-width: 520px;
+    height: 330px;
+    margin: 0 auto;
+  }
+
+  .analysis-block[hidden] {
+    display: none;
+  }
+
+  .tables-card details {
+    border: 1px solid #eadcff;
+    border-radius: 18px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    background: #fff;
+  }
+
+  .tables-card summary {
+    cursor: pointer;
+    font-weight: 900;
+    color: #141322;
+  }
+
+  @media (max-width: 800px) {
+    .analytics-upload,
+    .chart-controls {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 {% endblock %}
 
 {% block content %}
 
-<div class="page-header center">
+<div class="analytics-hero">
   <span class="eyebrow">דוחות ובקרה</span>
   <h1>ניתוחים סטטיסטיים</h1>
-  <p class="subtitle">
+  <p>
     העלו קובץ תוצאות שיבוץ CSV/XLSX וקבלו תמונת מצב חכמה על השיבוץ.
   </p>
 </div>
 
 <section class="card analytics-upload-card">
-  <form method="post" enctype="multipart/form-data" class="upload-form analytics-upload">
+  <form
+    method="post"
+    action="{{ url_for('analytics') }}"
+    enctype="multipart/form-data"
+    class="upload-form analytics-upload"
+  >
     <div class="field file-field">
       <label for="results_file_input" class="file-upload-btn">
         📁 בחירת קובץ שיבוץ
       </label>
 
-      <input type="file" name="results_file" id="results_file_input" required>
+      <input
+        type="file"
+        name="results_file"
+        id="results_file_input"
+        accept=".csv,.xlsx,.xls"
+        required
+      >
+
       <div id="file-name-display" class="field-note">לא נבחר קובץ</div>
     </div>
 
@@ -167,7 +341,7 @@
   {% if charts.score_labels|length > 0 %}
   <div class="card chart-card analysis-block" data-chart-key="scores" data-chart-title="התפלגות ציוני התאמה">
     <h2>התפלגות ציוני התאמה</h2>
-    <p class="section-sub">חלוקה לפי טווחי ציונים: נמוך, בינוני, טוב וגבוה.</p>
+    <p class="section-sub">חלוקה לפי טווחי ציונים.</p>
     <div class="chart-container">
       <canvas id="chartScores"></canvas>
     </div>
@@ -336,35 +510,10 @@ Chart.defaults.font.family = "'Heebo', system-ui, sans-serif";
 Chart.defaults.font.size = 13;
 Chart.defaults.color = "#4b5563";
 
-const styles = getComputedStyle(document.documentElement);
-const primary = styles.getPropertyValue("--primary").trim() || "#d76fd4";
-const accent = styles.getPropertyValue("--accent").trim() || "#9b6bff";
-const success = styles.getPropertyValue("--success").trim() || "#10b981";
-const warning = styles.getPropertyValue("--warning").trim() || "#f59e0b";
-const danger = styles.getPropertyValue("--danger").trim() || "#ef4444";
-
-const baseOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: "top",
-      labels: {
-        usePointStyle: true,
-        boxWidth: 12
-      }
-    }
-  },
-  scales: {
-    x: {
-      beginAtZero: true,
-      grid: { color: "rgba(148, 163, 184, 0.18)" }
-    },
-    y: {
-      grid: { display: false }
-    }
-  }
-};
+const primary = "#d76fd4";
+const accent = "#9b6bff";
+const successColor = "#10b981";
+const dangerColor = "#ef4444";
 
 function createBarChart(canvasId, labels, values, label, horizontal = false) {
   const canvas = document.getElementById(canvasId);
@@ -373,19 +522,33 @@ function createBarChart(canvasId, labels, values, label, horizontal = false) {
   new Chart(canvas.getContext("2d"), {
     type: "bar",
     data: {
-      labels,
+      labels: labels,
       datasets: [{
-        label,
+        label: label,
         data: values,
-        backgroundColor: accent + "55",
+        backgroundColor: "rgba(155, 107, 255, 0.35)",
         borderColor: primary,
         borderWidth: 1.5,
         borderRadius: 8
       }]
     },
     options: {
-      ...baseOptions,
-      indexAxis: horizontal ? "y" : "x"
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: horizontal ? "y" : "x",
+      plugins: {
+        legend: {
+          position: "top"
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true
+        },
+        y: {
+          beginAtZero: true
+        }
+      }
     }
   });
 }
@@ -397,17 +560,16 @@ function createLineChart(canvasId, labels, values, label) {
   new Chart(canvas.getContext("2d"), {
     type: "line",
     data: {
-      labels,
+      labels: labels,
       datasets: [{
-        label,
+        label: label,
         data: values,
         borderColor: primary,
-        backgroundColor: accent + "33",
+        backgroundColor: "rgba(155, 107, 255, 0.18)",
         borderWidth: 3,
         tension: 0.35,
         fill: true,
-        pointRadius: 4,
-        pointHoverRadius: 6
+        pointRadius: 4
       }]
     },
     options: {
@@ -419,11 +581,7 @@ function createLineChart(canvasId, labels, values, label) {
           suggestedMax: 100,
           ticks: {
             callback: value => value + "%"
-          },
-          grid: { color: "rgba(148, 163, 184, 0.18)" }
-        },
-        x: {
-          grid: { display: false }
+          }
         }
       }
     }
@@ -437,10 +595,10 @@ function createDoughnutChart(canvasId, labels, values) {
   new Chart(canvas.getContext("2d"), {
     type: "doughnut",
     data: {
-      labels,
+      labels: labels,
       datasets: [{
         data: values,
-        backgroundColor: [success + "cc", primary + "cc"],
+        backgroundColor: [successColor, primary],
         borderColor: "#ffffff",
         borderWidth: 3
       }]
@@ -449,7 +607,9 @@ function createDoughnutChart(canvasId, labels, values) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: "bottom" }
+        legend: {
+          position: "bottom"
+        }
       }
     }
   });
@@ -482,14 +642,16 @@ function applyChartFilter() {
   });
 }
 
-chartType.addEventListener("change", applyChartFilter);
-chartSearch.addEventListener("input", applyChartFilter);
+if (chartType && chartSearch && resetBtn) {
+  chartType.addEventListener("change", applyChartFilter);
+  chartSearch.addEventListener("input", applyChartFilter);
 
-resetBtn.addEventListener("click", function() {
-  chartType.value = "all";
-  chartSearch.value = "";
-  applyChartFilter();
-});
+  resetBtn.addEventListener("click", function() {
+    chartType.value = "all";
+    chartSearch.value = "";
+    applyChartFilter();
+  });
+}
 </script>
 
 {% endif %}
