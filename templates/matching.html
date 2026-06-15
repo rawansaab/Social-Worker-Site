@@ -3,17 +3,21 @@
 
 {% block content %}
 
-<section class="hero">
+<section class="hero hero-main">
   <div class="hero-label">מערכת מתקדמת לשיבוץ אוטומטי</div>
+
   <h1>מערכת חכמה לשיבוץ סטודנטים<br>להתמחויות בעבודה סוציאלית</h1>
+
   <p class="hero-sub">
     פתרון אוטומטי ויעיל לשיבוץ סטודנטים למקומות התמחות על בסיס העדפות,
-    מיומנויות ודרישות המוסדות.
+    תחומי התמחות, בקשות מיוחדות וקיבולת מקומות ההכשרה.
   </p>
+
   <div class="hero-actions">
     <a href="https://www.studentssurvey.org" class="btn-primary" target="_blank" rel="noopener noreferrer">
-      שאלון סטודנט
+      מילוי שאלון סטודנט
     </a>
+
     <a href="https://mentormappingsurvey.org" class="btn-ghost" target="_blank" rel="noopener noreferrer">
       מיפוי מדריכים
     </a>
@@ -21,73 +25,98 @@
 </section>
 
 <section class="steps">
-  <h2>איך זה עובד?</h2>
-  <p class="section-sub">תהליך פשוט ויעיל בשלושה שלבים</p>
+  <div class="section-heading">
+    <h2>איך זה עובד?</h2>
+    <p class="section-sub">תהליך פשוט ויעיל בשלושה שלבים</p>
+  </div>
+
   <div class="steps-grid">
     <div class="step-card">
       <div class="step-icon">📝</div>
       <h3>שלב 1: מילוי שאלונים</h3>
-      <p>סטודנטים ומדריכים ממלאים שאלונים מפורטים על העדפות, כישורים וצרכי המוסד.</p>
+      <p>סטודנטים ומדריכים ממלאים שאלונים עם נתונים הדרושים לשיבוץ.</p>
     </div>
+
     <div class="step-card">
       <div class="step-icon">📊</div>
       <h3>שלב 2: ניתוח נתונים</h3>
-      <p>המערכת אוספת ומנתחת את הנתונים באמצעות אלגוריתמים מתקדמים.</p>
+      <p>המערכת קוראת את הנתונים, מנרמלת אותם ובודקת התאמות בין סטודנטים למקומות הכשרה.</p>
     </div>
+
     <div class="step-card">
       <div class="step-icon">✅</div>
       <h3>שלב 3: שיבוץ חכם</h3>
-      <p>שיבוץ אוטומטי ואופטימלי של סטודנטים למקומות התמחות מתאימים.</p>
+      <p>נוצר שיבוץ אוטומטי עם אחוזי התאמה, קובץ תוצאות ודוחות לניתוח.</p>
+    </div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="section-heading">
+    <h2>מה המערכת מאפשרת?</h2>
+    <p class="section-sub">כלים שמקלים על תהליך השיבוץ והבקרה</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span>🎯</span>
+      <h3>שיבוץ לפי התאמה</h3>
+      <p>התחשבות בתחום התמחות, מקום הכשרה, עיר ובקשות מיוחדות.</p>
+    </div>
+
+    <div class="feature-card">
+      <span>📁</span>
+      <h3>עבודה עם קבצים</h3>
+      <p>העלאת קבצי CSV/XLSX והורדת קובצי תוצאות מסודרים.</p>
+    </div>
+
+    <div class="feature-card">
+      <span>📈</span>
+      <h3>ניתוחים סטטיסטיים</h3>
+      <p>דוחות וגרפים חכמים למרצים על איכות השיבוץ והתפלגות הנתונים.</p>
     </div>
   </div>
 </section>
 
 <section class="cta">
   <h2>מוכנים להתחיל?</h2>
-  <p>הצטרפו למערכת שלנו והפכו את תהליך השיבוץ לפשוט, מהיר ויעיל.</p>
+  <p>התחילו במילוי השאלונים, ולאחר מכן המרצים יוכלו להפיק שיבוץ וניתוחים.</p>
+
   <div class="cta-actions">
     <a href="https://www.studentssurvey.org" class="btn-light" target="_blank" rel="noopener noreferrer">
       מילוי שאלון סטודנט
     </a>
+
     <a href="https://mentormappingsurvey.org" class="btn-light-outline" target="_blank" rel="noopener noreferrer">
       מילוי מיפוי מדריך
     </a>
   </div>
 </section>
 
-<!-- 🔹 ווידג'ט צ'אט צף למשתמש -->
 <div class="chat-launcher" id="chat-launcher">
   <span class="chat-launcher-icon">💬</span>
-  <span class="chat-launcher-label">צ'אט</span>
+  <span class="chat-launcher-label">צ׳אט עזרה</span>
 </div>
 
 <div class="chat-box" id="chat-box" aria-hidden="true">
   <div class="chat-header">
-    <span>צ'אט מערכת השיבוץ</span>
+    <span>צ׳אט מערכת השיבוץ</span>
     <button type="button" class="chat-close" id="chat-close">×</button>
   </div>
 
   <div class="chat-messages" id="chat-messages">
-    <!-- הודעת פתיחה של הבוט -->
     <div class="msg msg-bot">
       <div class="msg-text">
-        ברוכים הבאים למערכת השיבוץ האוטומטית 🌸<br>
-        איך אפשר לעזור?<br>
-        אפשר לבחור שאלה מוכנה או לכתוב שאלה חופשית.
+        שלום 🌸<br>
+        אני יכולה לענות על שאלות אמיתיות על תהליך השיבוץ, שאלון הסטודנטים, מיפוי מדריכים, ניתוחים סטטיסטיים וכניסת מרצים.
       </div>
     </div>
 
-    <!-- שאלות מוצעות -->
     <div class="chat-suggestions">
-      <button type="button" class="suggestion-btn" data-q="איך עובד תהליך השיבוץ?">
-        איך עובד תהליך השיבוץ?
-      </button>
-      <button type="button" class="suggestion-btn" data-q="איך אני ממלא/ת את שאלון הסטודנט?">
-        איך אני ממלא/ת את שאלון הסטודנט?
-      </button>
-      <button type="button" class="suggestion-btn" data-q="למי פונים כשיש בעיה טכנית?">
-        למי פונים כשיש בעיה טכנית?
-      </button>
+      <button type="button" class="suggestion-btn" data-q="איך עובד תהליך השיבוץ?">איך עובד תהליך השיבוץ?</button>
+      <button type="button" class="suggestion-btn" data-q="מה יש בדף הניתוחים הסטטיסטיים?">מה יש בדף הניתוחים?</button>
+      <button type="button" class="suggestion-btn" data-q="כמה סטודנטים שובצו?">כמה סטודנטים שובצו?</button>
+      <button type="button" class="suggestion-btn" data-q="למי פונים כשיש בעיה?">למי פונים כשיש בעיה?</button>
     </div>
   </div>
 
@@ -95,7 +124,7 @@
     <input
       type="text"
       id="chat-input"
-      placeholder="כתבו כאן את השאלה שלכם..."
+      placeholder="כתבו כאן שאלה..."
       autocomplete="off"
     >
     <button type="submit" class="chat-send-btn">שליחה</button>
@@ -106,69 +135,108 @@
 
 {% block scripts %}
 <script>
-  (function() {
-    const launcher = document.getElementById('chat-launcher');
-    const chatBox  = document.getElementById('chat-box');
-    const closeBtn = document.getElementById('chat-close');
-    const form     = document.getElementById('chat-form');
-    const input    = document.getElementById('chat-input');
-    const messages = document.getElementById('chat-messages');
-    const suggestionButtons = document.querySelectorAll('.suggestion-btn');
+(function() {
+  const launcher = document.getElementById('chat-launcher');
+  const chatBox  = document.getElementById('chat-box');
+  const closeBtn = document.getElementById('chat-close');
+  const form     = document.getElementById('chat-form');
+  const input    = document.getElementById('chat-input');
+  const messages = document.getElementById('chat-messages');
+  const suggestionButtons = document.querySelectorAll('.suggestion-btn');
 
-    function openChat() {
-      chatBox.classList.add('open');
-      chatBox.setAttribute('aria-hidden', 'false');
-      input.focus();
-    }
+  function openChat() {
+    chatBox.classList.add('open');
+    chatBox.setAttribute('aria-hidden', 'false');
+    setTimeout(() => input.focus(), 80);
+  }
 
-    function closeChat() {
-      chatBox.classList.remove('open');
-      chatBox.setAttribute('aria-hidden', 'true');
-    }
+  function closeChat() {
+    chatBox.classList.remove('open');
+    chatBox.setAttribute('aria-hidden', 'true');
+  }
 
-    function addMessage(text, from) {
-      if (!text.trim()) return;
+  function addMessage(text, from) {
+    if (!text || !text.trim()) return;
 
-      const msgDiv = document.createElement('div');
-      msgDiv.className = 'msg ' + (from === 'bot' ? 'msg-bot' : 'msg-user');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'msg ' + (from === 'bot' ? 'msg-bot' : 'msg-user');
 
-      const inner = document.createElement('div');
-      inner.className = 'msg-text';
+    const inner = document.createElement('div');
+    inner.className = 'msg-text';
+
+    if (from === 'bot') {
       inner.innerHTML = text.replace(/\n/g, '<br>');
-
-      msgDiv.appendChild(inner);
-      messages.appendChild(msgDiv);
-      messages.scrollTop = messages.scrollHeight;
+    } else {
+      inner.textContent = text;
     }
 
-    function botReply(userText) {
-      const reply =
-        'תודה על השאלה 🙏<br>' +
-        'כרגע הצ׳אט שלנו הוא דמו. עבור שאלות דחופות אפשר לפנות ל-social@zefat.ac.il או לטופס "יצירת קשר".';
-      addMessage(reply, 'bot');
-    }
+    msgDiv.appendChild(inner);
+    messages.appendChild(msgDiv);
+    messages.scrollTop = messages.scrollHeight;
+  }
 
-    if (launcher && chatBox && closeBtn && form && input && messages) {
-      launcher.addEventListener('click', openChat);
-      closeBtn.addEventListener('click', closeChat);
+  function addTyping() {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'msg msg-bot';
+    msgDiv.id = 'typing-message';
 
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const text = input.value.trim();
-        if (!text) return;
-        addMessage(text, 'user');
-        input.value = '';
-        botReply(text);
+    const inner = document.createElement('div');
+    inner.className = 'msg-text';
+    inner.textContent = 'כותבת תשובה...';
+
+    msgDiv.appendChild(inner);
+    messages.appendChild(msgDiv);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function removeTyping() {
+    const typing = document.getElementById('typing-message');
+    if (typing) typing.remove();
+  }
+
+  async function askBot(text) {
+    addTyping();
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
       });
 
-      suggestionButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-          const q = this.dataset.q || this.innerText;
-          addMessage(q, 'user');
-          botReply(q);
-        });
-      });
+      const data = await response.json();
+      removeTyping();
+      addMessage(data.answer || 'לא הצלחתי למצוא תשובה מתאימה.', 'bot');
+
+    } catch (error) {
+      removeTyping();
+      addMessage('אירעה תקלה בצ׳אט. אפשר לנסות שוב או לפנות דרך יצירת קשר.', 'bot');
     }
-  })();
+  }
+
+  if (launcher && chatBox && closeBtn && form && input && messages) {
+    launcher.addEventListener('click', openChat);
+    closeBtn.addEventListener('click', closeChat);
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage(text, 'user');
+      input.value = '';
+      askBot(text);
+    });
+
+    suggestionButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const q = this.dataset.q || this.innerText;
+        addMessage(q, 'user');
+        askBot(q);
+      });
+    });
+  }
+})();
 </script>
 {% endblock %}
