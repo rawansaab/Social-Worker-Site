@@ -2,252 +2,509 @@
 {% block title %}ניתוחים סטטיסטיים{% endblock %}
 
 {% block head %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 
 {% block content %}
-<div class="page-header" style="text-align: center;">
+
+<div class="page-header center">
+  <span class="eyebrow">דוחות ובקרה</span>
   <h1>ניתוחים סטטיסטיים</h1>
-  <p class="subtitle">העלו את קובץ ה-CSV/XLSX של תוצאות השיבוץ (כמו הקובץ שמורידים מהמערכת).</p>
+  <p class="subtitle">
+    העלו קובץ תוצאות שיבוץ CSV/XLSX וקבלו תמונת מצב חכמה על השיבוץ.
+  </p>
 </div>
 
-<div class="card" style="max-width: 700px; margin: 24px auto;">
-  <form method="post" enctype="multipart/form-data" class="upload-form simple" style="align-items: center; gap: 16px;">
-    
-    <div class="field" style="width: 100%; text-align: center;">
-      <label for="results_file_input" class="btn-outline">
-        📁 בחר קובץ...
+<section class="card analytics-upload-card">
+  <form method="post" enctype="multipart/form-data" class="upload-form analytics-upload">
+    <div class="field file-field">
+      <label for="results_file_input" class="file-upload-btn">
+        📁 בחירת קובץ שיבוץ
       </label>
+
       <input type="file" name="results_file" id="results_file_input" required>
-      <div id="file-name-display" class="field-note" style="margin-top: 10px;">לא נבחר קובץ</div>
+      <div id="file-name-display" class="field-note">לא נבחר קובץ</div>
     </div>
-    
-    <div class="btn-wrap">
-      <button class="primary-btn" type="submit">נתח קובץ</button>
-    </div>
-    
+
+    <button class="primary-btn" type="submit">נתח קובץ</button>
   </form>
-</div>
+</section>
 
 {% if error %}
-  <div class="alert error" style="max-width: 700px; margin: 16px auto;">{{ error }}</div>
+  <div class="alert error">{{ error }}</div>
 {% endif %}
 
-{% if tables %}
-  <section class="card">
-    <h2>🧾 טבלה: סטודנטים לכל מקום הכשרה</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>{{ tables.cols.site }}</th><th>מספר סטודנטים</th></tr></thead>
-        <tbody>
-          {% for r in tables.by_site %}
-            <tr><td>{{ r[tables.cols.site] }}</td><td>{{ r["מספר סטודנטים"] }}</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </section>
+{% if success %}
+  <div class="alert success">{{ success }}</div>
+{% endif %}
 
-  <section class="card">
-    <h2>🏷️ טבלה: סטודנטים לפי תחום התמחות</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>{{ tables.cols.field }}</th><th>מספר סטודנטים</th></tr></thead>
-        <tbody>
-          {% for r in tables.by_field %}
-            <tr><td>{{ r[tables.cols.field] }}</td><td>{{ r["מספר סטודנטים"] }}</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </section>
+{% if summary %}
 
-  {% if tables.score_avg|length > 0 %}
-  <section class="card">
-    <h2>⭐ ממוצע אחוז התאמה לפי מקום</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>{{ tables.cols.site }}</th><th>ממוצע התאמה</th></tr></thead>
-        <tbody>
-          {% for r in tables.score_avg %}
-            <tr><td>{{ r[tables.cols.site] }}</td><td>{{ r["ממוצע התאמה"] }}</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
+<section class="analytics-summary">
+  <div class="mini-stat">
+    <span>👩‍🎓</span>
+    <small>סטודנטים</small>
+    <strong>{{ summary.total_students }}</strong>
+  </div>
+
+  <div class="mini-stat">
+    <span>✅</span>
+    <small>שובצו בפועל</small>
+    <strong>{{ summary.placements_done }}</strong>
+  </div>
+
+  <div class="mini-stat">
+    <span>🏫</span>
+    <small>מקומות התמחות</small>
+    <strong>{{ summary.registered_sites }}</strong>
+  </div>
+
+  <div class="mini-stat">
+    <span>🧑‍🏫</span>
+    <small>מדריכים</small>
+    <strong>{{ summary.registered_mentors }}</strong>
+  </div>
+
+  <div class="mini-stat">
+    <span>📈</span>
+    <small>אחוז הצלחה</small>
+    <strong>{{ summary.success_rate }}</strong>
+  </div>
+
+  <div class="mini-stat">
+    <span>⭐</span>
+    <small>ממוצע התאמה</small>
+    <strong>{{ summary.avg_score }}</strong>
+  </div>
+</section>
+
+<section class="card insights-card">
+  <div class="section-heading">
+    <h2>תובנות מרכזיות</h2>
+    <p class="section-sub">סיכום מהיר של מצב השיבוץ לפי הקובץ שהועלה</p>
+  </div>
+
+  <div class="insights-grid">
+    <div class="insight-item">
+      <strong>מקום ההתמחות המבוקש ביותר</strong>
+      <span>{{ summary.most_popular_site }}</span>
     </div>
-  </section>
+
+    <div class="insight-item">
+      <strong>תחום ההתמחות הנפוץ ביותר</strong>
+      <span>{{ summary.most_popular_field }}</span>
+    </div>
+
+    <div class="insight-item">
+      <strong>מקום עם ממוצע התאמה גבוה</strong>
+      <span>{{ summary.best_avg_text }}</span>
+    </div>
+
+    <div class="insight-item">
+      <strong>סטודנטים לבדיקה</strong>
+      <span>{{ summary.low_score_count }} עם התאמה נמוכה מ־60%</span>
+    </div>
+
+    <div class="insight-item">
+      <strong>עדכונים ידניים</strong>
+      <span>{{ summary.manual_count }} שיבוצים עודכנו ידנית</span>
+    </div>
+
+    <div class="insight-item">
+      <strong>התאמות גבוהות</strong>
+      <span>{{ summary.high_score_count }} שיבוצים עם התאמה 85% ומעלה</span>
+    </div>
+  </div>
+</section>
+
+<section class="card chart-control-card">
+  <div class="section-heading">
+    <h2>בחירת ניתוח להצגה</h2>
+    <p class="section-sub">אפשר לבחור גרף מסוים או לחפש לפי שם ניתוח</p>
+  </div>
+
+  <div class="chart-controls">
+    <div class="field">
+      <label for="chart-type">איזה גרף להציג?</label>
+      <select id="chart-type">
+        <option value="all">כל הגרפים</option>
+        <option value="sites">סטודנטים לפי מקום התמחות</option>
+        <option value="fields">סטודנטים לפי תחום התמחות</option>
+        <option value="scores">התפלגות ציוני התאמה</option>
+        <option value="avg">ממוצע התאמה לפי מקום</option>
+        <option value="manual">שיבוץ אוטומטי מול עדכון ידני</option>
+        <option value="mentors">עומס לפי מדריך</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="chart-search">חיפוש ניתוח</label>
+      <input id="chart-search" type="search" placeholder="לדוגמה: תחום, מדריך, התאמה, מקום...">
+    </div>
+
+    <button type="button" class="btn-outline reset-btn" id="reset-chart-filter">ניקוי</button>
+  </div>
+</section>
+
+<section class="analytics-charts">
+
+  <div class="card chart-card analysis-block" data-chart-key="sites" data-chart-title="סטודנטים לפי מקום התמחות">
+    <h2>סטודנטים לפי מקום התמחות</h2>
+    <p class="section-sub">כמה סטודנטים שובצו בכל מקום הכשרה.</p>
+    <div class="chart-container large">
+      <canvas id="chartSites"></canvas>
+    </div>
+  </div>
+
+  <div class="card chart-card analysis-block" data-chart-key="fields" data-chart-title="סטודנטים לפי תחום התמחות">
+    <h2>סטודנטים לפי תחום התמחות</h2>
+    <p class="section-sub">התפלגות הסטודנטים לפי תחומי ההתמחות.</p>
+    <div class="chart-container">
+      <canvas id="chartFields"></canvas>
+    </div>
+  </div>
+
+  {% if charts.score_labels|length > 0 %}
+  <div class="card chart-card analysis-block" data-chart-key="scores" data-chart-title="התפלגות ציוני התאמה">
+    <h2>התפלגות ציוני התאמה</h2>
+    <p class="section-sub">חלוקה לפי טווחי ציונים: נמוך, בינוני, טוב וגבוה.</p>
+    <div class="chart-container">
+      <canvas id="chartScores"></canvas>
+    </div>
+  </div>
   {% endif %}
 
-<section class="card chart-card">
-  <h2>📊 גרפים</h2>
-
-  <div class="chart-container">
-    <canvas id="chartSites"></canvas>
-  </div>
-
-  <div style="height:24px"></div>
-
-  <div class="chart-container">
-    <canvas id="chartFields"></canvas>
-  </div>
-
   {% if charts.avg_labels|length > 0 %}
-  <div style="height:24px"></div>
-
-  <div class="chart-container">
-    <canvas id="chartAvg"></canvas>
+  <div class="card chart-card analysis-block" data-chart-key="avg" data-chart-title="ממוצע התאמה לפי מקום">
+    <h2>ממוצע התאמה לפי מקום התמחות</h2>
+    <p class="section-sub">איפה ממוצע ההתאמה גבוה יותר ואיפה כדאי לבדוק שוב.</p>
+    <div class="chart-container large">
+      <canvas id="chartAvg"></canvas>
+    </div>
   </div>
+  {% endif %}
+
+  <div class="card chart-card analysis-block" data-chart-key="manual" data-chart-title="שיבוץ אוטומטי מול עדכון ידני">
+    <h2>שיבוץ אוטומטי מול עדכון ידני</h2>
+    <p class="section-sub">כמה שיבוצים נשארו כפי שהמערכת הציעה וכמה שונו ידנית.</p>
+    <div class="chart-container small-chart">
+      <canvas id="chartManual"></canvas>
+    </div>
+  </div>
+
+  {% if charts.mentor_labels|length > 0 %}
+  <div class="card chart-card analysis-block" data-chart-key="mentors" data-chart-title="עומס לפי מדריך">
+    <h2>עומס לפי מדריך</h2>
+    <p class="section-sub">מספר הסטודנטים המשויכים לכל מדריך/ה.</p>
+    <div class="chart-container large">
+      <canvas id="chartMentors"></canvas>
+    </div>
+  </div>
+  {% endif %}
+
+</section>
+
+<section class="card tables-card">
+  <div class="section-heading">
+    <h2>טבלאות נתונים</h2>
+    <p class="section-sub">פירוט מספרי מלא לפי מקום, תחום, מדריך וציוני התאמה</p>
+  </div>
+
+  <details open>
+    <summary>סטודנטים לכל מקום התמחות</summary>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>שם מקום ההתמחות</th>
+            <th>מספר סטודנטים</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in tables.by_site %}
+          <tr>
+            <td>{{ r["שם מקום ההתמחות"] }}</td>
+            <td>{{ r["מספר סטודנטים"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details>
+    <summary>סטודנטים לפי תחום התמחות</summary>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>תחום התמחות</th>
+            <th>מספר סטודנטים</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in tables.by_field %}
+          <tr>
+            <td>{{ r["תחום התמחות"] }}</td>
+            <td>{{ r["מספר סטודנטים"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  {% if tables.by_mentor|length > 0 %}
+  <details>
+    <summary>סטודנטים לפי מדריך/ה</summary>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>שם המדריך/ה</th>
+            <th>מספר סטודנטים</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in tables.by_mentor %}
+          <tr>
+            <td>{{ r["שם המדריך/ה"] }}</td>
+            <td>{{ r["מספר סטודנטים"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>
+  {% endif %}
+
+  {% if tables.score_avg|length > 0 %}
+  <details>
+    <summary>ממוצע אחוז התאמה לפי מקום</summary>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>שם מקום ההתמחות</th>
+            <th>ממוצע התאמה</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in tables.score_avg %}
+          <tr>
+            <td>{{ r["שם מקום ההתמחות"] }}</td>
+            <td>{{ r["ממוצע התאמה"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>
+  {% endif %}
+
+  {% if tables.low_students|length > 0 %}
+  <details>
+    <summary>סטודנטים עם התאמה נמוכה לבדיקה</summary>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            {% for key in tables.low_students[0].keys() %}
+              <th>{{ key }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in tables.low_students %}
+          <tr>
+            {% for key, value in r.items() %}
+              <td>{{ value }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>
   {% endif %}
 </section>
 
-
 <script>
-  const charts = {{ charts|tojson }};
+const charts = {{ charts|tojson }};
 
-  // פונטים ונראות כללית
-  Chart.defaults.font.family = "'Heebo', system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
-  Chart.defaults.font.size = 13;
-  Chart.defaults.color = "#4b5563";
+Chart.defaults.font.family = "'Heebo', system-ui, sans-serif";
+Chart.defaults.font.size = 13;
+Chart.defaults.color = "#4b5563";
 
-  // צבעים לפי ה־CSS variables שלך
-  const styles = getComputedStyle(document.documentElement);
-  const barColor = styles.getPropertyValue("--accent") || "#9b6bff";
-  const barBorder = styles.getPropertyValue("--primary") || "#d76fd4";
+const styles = getComputedStyle(document.documentElement);
+const primary = styles.getPropertyValue("--primary").trim() || "#d76fd4";
+const accent = styles.getPropertyValue("--accent").trim() || "#9b6bff";
+const success = styles.getPropertyValue("--success").trim() || "#10b981";
+const warning = styles.getPropertyValue("--warning").trim() || "#f59e0b";
+const danger = styles.getPropertyValue("--danger").trim() || "#ef4444";
 
-  const baseOptions = {
-    responsive: true,
-    maintainAspectRatio: false,  // שנוכל לשלוט בגובה דרך CSS
-    layout: {
-      padding: { top: 10, right: 20, bottom: 10, left: 10 }
-    },
-    plugins: {
-      legend: {
-        position: "top",
-        labels: {
-          usePointStyle: true,
-          boxWidth: 14
-        }
-      },
-      tooltip: {
-        callbacks: {
-          // תצוגת טולטיפ יפה
-          label: function(ctx) {
-            const label = ctx.dataset.label || "";
-            const value = ctx.parsed.y;
-            return `${label}: ${value}`;
-          }
-        }
-      }
-    },
-    scales: {
-      x: {
-        ticks: {
-          autoSkip: false,   // שלא יעלם מרכז משפחה וכו'
-          maxRotation: 0,
-          minRotation: 0
-        }
-      },
-      y: {
-        beginAtZero: true,
-        ticks: {
-          stepSize: 1
-        },
-        grid: {
-          color: "rgba(148, 163, 184, 0.25)"
-        }
+const baseOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: "top",
+      labels: {
+        usePointStyle: true,
+        boxWidth: 12
       }
     }
-  };
+  },
+  scales: {
+    x: {
+      beginAtZero: true,
+      grid: { color: "rgba(148, 163, 184, 0.18)" }
+    },
+    y: {
+      grid: { display: false }
+    }
+  }
+};
 
-  // גרף סטודנטים לכל מקום
-  const ctx1 = document.getElementById("chartSites").getContext("2d");
-  new Chart(ctx1, {
+function createBarChart(canvasId, labels, values, label, horizontal = false) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+
+  new Chart(canvas.getContext("2d"), {
     type: "bar",
     data: {
-      labels: charts.site_labels,
+      labels,
       datasets: [{
-        label: "מספר סטודנטים",
-        data: charts.site_values,
-        backgroundColor: barColor.trim() + "55",   // שקיפות קלה
-        borderColor: barBorder.trim(),
+        label,
+        data: values,
+        backgroundColor: accent + "55",
+        borderColor: primary,
         borderWidth: 1.5,
-        borderRadius: 6
+        borderRadius: 8
       }]
     },
-    options: baseOptions
-  });
-
-  // גרף סטודנטים לפי תחום התמחות
-  const ctx2 = document.getElementById("chartFields").getContext("2d");
-  new Chart(ctx2, {
-    type: "bar",
-    data: {
-      labels: charts.field_labels,
-      datasets: [{
-        label: "מספר סטודנטים",
-        data: charts.field_values,
-        backgroundColor: barColor.trim() + "55",
-        borderColor: barBorder.trim(),
-        borderWidth: 1.5,
-        borderRadius: 6
-      }]
-    },
-    options: baseOptions
-  });
-
-  // גרף ממוצע התאמה באחוזים (אם קיים)
-  if (charts.avg_labels && charts.avg_labels.length) {
-    const ctx3 = document.getElementById("chartAvg").getContext("2d");
-
-    const avgOptions = {
+    options: {
       ...baseOptions,
+      indexAxis: horizontal ? "y" : "x"
+    }
+  });
+}
+
+function createLineChart(canvasId, labels, values, label) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+
+  new Chart(canvas.getContext("2d"), {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        label,
+        data: values,
+        borderColor: primary,
+        backgroundColor: accent + "33",
+        borderWidth: 3,
+        tension: 0.35,
+        fill: true,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
-        x: baseOptions.scales.x,
         y: {
           beginAtZero: true,
           suggestedMax: 100,
           ticks: {
-            callback: (value) => value + "%",
-            stepSize: 10
+            callback: value => value + "%"
           },
-          grid: {
-            color: "rgba(148, 163, 184, 0.25)"
-          }
-        }
-      },
-      plugins: {
-        ...baseOptions.plugins,
-        tooltip: {
-          callbacks: {
-            label: function(ctx) {
-              const label = ctx.dataset.label || "";
-              const value = ctx.parsed.y;
-              return `${label}: ${value}%`;
-            }
-          }
+          grid: { color: "rgba(148, 163, 184, 0.18)" }
+        },
+        x: {
+          grid: { display: false }
         }
       }
-    };
+    }
+  });
+}
 
-    new Chart(ctx3, {
-      type: "line",
-      data: {
-        labels: charts.avg_labels,
-        datasets: [{
-          label: "ממוצע התאמה",
-          data: charts.avg_values,
-          fill: false,
-          borderColor: barBorder.trim(),
-          borderWidth: 2.5,
-          tension: 0.35,
-          pointRadius: 4,
-          pointHoverRadius: 6
-        }]
-      },
-      options: avgOptions
-    });
-  }
+function createDoughnutChart(canvasId, labels, values) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+
+  new Chart(canvas.getContext("2d"), {
+    type: "doughnut",
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        backgroundColor: [success + "cc", primary + "cc"],
+        borderColor: "#ffffff",
+        borderWidth: 3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom" }
+      }
+    }
+  });
+}
+
+createBarChart("chartSites", charts.site_labels, charts.site_values, "מספר סטודנטים", true);
+createBarChart("chartFields", charts.field_labels, charts.field_values, "מספר סטודנטים");
+createBarChart("chartScores", charts.score_labels, charts.score_values, "מספר סטודנטים");
+createLineChart("chartAvg", charts.avg_labels, charts.avg_values, "ממוצע התאמה");
+createDoughnutChart("chartManual", charts.manual_labels, charts.manual_values);
+createBarChart("chartMentors", charts.mentor_labels, charts.mentor_values, "מספר סטודנטים", true);
+
+const chartType = document.getElementById("chart-type");
+const chartSearch = document.getElementById("chart-search");
+const resetBtn = document.getElementById("reset-chart-filter");
+const blocks = Array.from(document.querySelectorAll(".analysis-block"));
+
+function applyChartFilter() {
+  const selected = chartType.value;
+  const query = chartSearch.value.trim().toLowerCase();
+
+  blocks.forEach(block => {
+    const key = block.dataset.chartKey || "";
+    const title = (block.dataset.chartTitle || "").toLowerCase();
+
+    const matchType = selected === "all" || key === selected;
+    const matchText = !query || title.includes(query);
+
+    block.hidden = !(matchType && matchText);
+  });
+}
+
+chartType.addEventListener("change", applyChartFilter);
+chartSearch.addEventListener("input", applyChartFilter);
+
+resetBtn.addEventListener("click", function() {
+  chartType.value = "all";
+  chartSearch.value = "";
+  applyChartFilter();
+});
 </script>
 
-{% endif %} 
+{% endif %}
+
+<script>
+const fileInput = document.getElementById("results_file_input");
+const fileNameDisplay = document.getElementById("file-name-display");
+
+if (fileInput && fileNameDisplay) {
+  fileInput.addEventListener("change", function() {
+    fileNameDisplay.textContent = this.files && this.files.length
+      ? this.files[0].name
+      : "לא נבחר קובץ";
+  });
+}
+</script>
+
 {% endblock %}
