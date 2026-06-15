@@ -2,74 +2,33 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}פנאל מרצים{% endblock %} - מערכת שיבוץ</title>
+  <title>{% block title %}פאנל מרצים{% endblock %} - מערכת שיבוץ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <style>
-    /* סגנונות בסיס לאזור הפנימי */
-    body { background-color: #f8fafc; }
-    .lecturer-header {
-      background: #fff;
-      padding: 16px 32px;
-      border-bottom: 1px solid #e5e7eb;
-      display: flex;
-      justify-content: space-between; /* הוחזר ליישור קצוות */
-      align-items: center;
-      /* position: relative; הוסר */
-    }
-    .lecturer-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
-    .lecturer-logo .logo-image { /* סגנון לתמונה */
-        width: 38px;
-        height: 38px;
-        object-fit: contain; /* כדי שהלוגו לא יתעוות */
-    }
-    .lecturer-logo .logo-title { font-size: 18px; font-weight: 700; }
-    .lecturer-nav { 
-      display: flex; 
-      gap: 16px; 
-      align-items: center; 
-      /* position: absolute; הוסר */
-      /* left: 32px; הוסר */
-    }
-    .lecturer-nav a { text-decoration: none; color: #374151; font-weight: 500; }
-    .lecturer-nav a.btn-outline {
-        padding: 6px 12px;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-    }
-    .lecturer-content {
-      max-width: 1200px;
-      margin: 32px auto;
-      padding: 0 32px;
-    }
-    
-    /* התאמת רספונסיביות */
-    @media (max-width: 900px) {
-      .lecturer-header {
-        flex-direction: column;
-        gap: 12px;
-        /* position: static; לא נחוץ */
-      }
-      .lecturer-nav {
-        /* position: static; לא נחוץ */
-        /* left: auto; לא נחוץ */
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=50">
+
   {% block head %}{% endblock %}
 </head>
+
 <body class="lecturer-area">
 
 <header class="lecturer-header">
   <a href="{{ url_for('dashboard') }}" class="lecturer-logo">
     <img src="{{ url_for('static', filename='images/images.png') }}" alt="לוגו מכללת צפת" class="logo-image">
-    <div class="logo-title">מערכת שיבוץ (מרצים)</div>
+    <div>
+      <div class="logo-title">מערכת שיבוץ</div>
+      <div class="logo-sub">אזור מרצים</div>
+    </div>
   </a>
+
   <nav class="lecturer-nav">
-    <a href="{{ url_for('dashboard') }}">פנאל מרצים</a>
+    <a href="{{ url_for('dashboard') }}">פאנל מרצים</a>
+    <a href="{{ url_for('analytics') }}">ניתוחים סטטיסטיים</a>
+    <a href="{{ url_for('placement_system') }}" target="_blank">מערכת השיבוץ</a>
     <a href="{{ url_for('logout') }}" class="btn-outline">יציאה</a>
   </nav>
 </header>
@@ -77,14 +36,14 @@
 <main class="lecturer-content">
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-      <div class="flash-wrap">
+      <div class="flash-wrap inner-flash">
         {% for cat, msg in messages %}
           <div class="flash {{ cat }}">{{ msg }}</div>
         {% endfor %}
       </div>
     {% endif %}
   {% endwith %}
-  
+
   {% block content %}{% endblock %}
 </main>
 
