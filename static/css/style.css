@@ -1597,3 +1597,214 @@ table th {
     bottom: 88px;
   }
 }
+/* =====================================================
+   תיקון צבעים לפאנל מרצים - חזרה לוורוד/סגול
+   + תיקון תצוגת תובנות מרכזיות
+===================================================== */
+
+:root {
+  --primary: #d76fd4;
+  --primary-dark: #c45cc2;
+  --accent: #9b6bff;
+  --accent-soft: #f7f3ff;
+
+  --border-soft: #eadcff;
+
+  --grad-main: linear-gradient(90deg, #d76fd4 0%, #9b6bff 100%);
+  --grad-soft: linear-gradient(135deg, #ffffff 0%, #fbfaff 48%, #f7f3ff 100%);
+}
+
+body.lecturer-area {
+  background:
+    radial-gradient(900px 450px at 90% 0%, #ffe9fb 0%, transparent 65%),
+    radial-gradient(850px 500px at 0% 10%, #f1e9ff 0%, transparent 68%),
+    #f8fafc;
+}
+
+/* Header */
+.lecturer-header {
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid rgba(234, 220, 255, 0.9);
+}
+
+.lecturer-nav a:hover,
+.lecturer-nav a.active {
+  background: #f4f1ff;
+  color: #7c3aed;
+  border-color: #eadcff;
+}
+
+.lecturer-nav .logout-link {
+  background: #ffffff;
+  border-color: #eadcff;
+  color: #475569;
+}
+
+.lecturer-nav .logout-link:hover {
+  background: #faf5ff;
+  color: #9b6bff;
+}
+
+/* תיקון מרווח מתחת לתפריט כדי שהכרטיס העליון לא ייראה חתוך */
+.lecturer-content {
+  margin-top: 34px;
+}
+
+.dashboard-hero-card,
+.analytics-hero-card {
+  margin-top: 14px;
+  background:
+    radial-gradient(260px 180px at 10% 0%, rgba(215, 111, 212, 0.10), transparent 70%),
+    radial-gradient(300px 180px at 100% 0%, rgba(155, 107, 255, 0.11), transparent 72%),
+    linear-gradient(135deg, #ffffff 0%, #fbfaff 52%, #f7f3ff 100%);
+  border-color: #eadcff;
+}
+
+.dashboard-hero-card::before,
+.analytics-hero-card::before {
+  background: rgba(215, 111, 212, 0.08);
+}
+
+.eyebrow,
+.hero-label {
+  color: #9b6bff;
+  background: #ffffff;
+}
+
+.hero-side-icon,
+.stat-icon,
+.mini-stat span,
+.file-icon {
+  background: rgba(155, 107, 255, 0.12);
+}
+
+.hero-side-card {
+  border-color: #eadcff;
+}
+
+/* כפתורים */
+.btn-primary,
+.primary-btn,
+.action-icon {
+  background: linear-gradient(90deg, #d76fd4 0%, #9b6bff 100%);
+  box-shadow: 0 14px 30px rgba(155, 107, 255, 0.22);
+}
+
+.btn-outline:hover,
+.reset-btn:hover {
+  background: #f7f3ff;
+  color: #9b6bff;
+  border-color: #eadcff;
+}
+
+/* כרטיסי סטטיסטיקה */
+.stat-highlight {
+  background: linear-gradient(180deg, #fbf6ff 0%, #ffffff 100%);
+  border-color: #dfc6ff;
+}
+
+.stat-card,
+.mini-stat {
+  border-color: #e8eaf0;
+}
+
+/* כרטיסי פעולות */
+.action-tile.primary-action {
+  background: linear-gradient(135deg, rgba(215, 111, 212, 0.08), rgba(155, 107, 255, 0.08));
+  border-color: #dfc6ff;
+}
+
+/* העלאת קובץ */
+.file-upload-btn-clean:hover,
+.file-upload-btn:hover {
+  background: #faf5ff;
+  border-color: #dfc6ff;
+  color: #9b6bff;
+}
+
+/* תיקון תובנות מרכזיות */
+.insights-card {
+  padding: 28px 28px 30px !important;
+  border-color: #eadcff;
+}
+
+.insights-card .section-heading,
+.insights-card .section-heading h2,
+.insights-card .section-heading .section-sub {
+  text-align: center !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.insights-card .section-heading {
+  margin-bottom: 26px;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.insight-item {
+  background: #fbfaff;
+  border: 1px solid #eadcff;
+  border-radius: 20px;
+  padding: 18px 20px;
+  min-height: 105px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: right;
+}
+
+.insight-item strong {
+  color: #111827;
+  font-size: 1rem;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+
+.insight-item span {
+  color: #64748b;
+  font-weight: 800;
+}
+
+/* בחירת ניתוח להצגה */
+.chart-control-card,
+.chart-card,
+.tables-card {
+  border-color: #eadcff;
+}
+
+/* טבלאות */
+.tables-card details {
+  background: #fbfaff;
+  border-color: #eadcff;
+}
+
+.table-wrap {
+  border-color: #eadcff;
+}
+
+table th {
+  background: #f7f3ff;
+}
+
+/* התאמה למסכים קטנים */
+@media (max-width: 1220px) {
+  .insights-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lecturer-content {
+    margin-top: 22px;
+  }
+}
