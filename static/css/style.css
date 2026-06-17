@@ -1884,90 +1884,34 @@ table th {
     padding: 24px 20px 28px !important;
   }
 }
-# ======================================================
-# אזור מרצים
-# ======================================================
+/* =====================================================
+   כפתור איפוס נתוני פאנל
+===================================================== */
 
-def check_auth():
-    if "lecturer_email" not in session:
-        flash("נא להתחבר למערכת המרצים תחילה.", "error")
-        return redirect(url_for("login"))
-    return None
+.reset-dashboard-form {
+  margin-top: 16px;
+  width: 100%;
+}
 
+.danger-reset-btn {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #fecdd3;
+  border-radius: 18px;
+  background: #fff5f7;
+  color: #be123c;
+  font-size: 0.98rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
 
-@app.route("/dashboard")
-def dashboard():
-    auth_redirect = check_auth()
-    if auth_redirect:
-        return auth_redirect
+.danger-reset-btn:hover {
+  background: #ffe4e6;
+  color: #9f1239;
+  transform: translateY(-1px);
+}
 
-    stats = load_dashboard_stats()
-    return render_template("dashboard.html", stats=stats)
-
-
-@app.route("/reset-dashboard-data", methods=["POST"])
-def reset_dashboard_data():
-    auth_redirect = check_auth()
-    if auth_redirect:
-        return auth_redirect
-
-    save_dashboard_stats(default_dashboard_stats())
-    flash("נתוני הפאנל אופסו בהצלחה.", "success")
-    return redirect(url_for("dashboard"))
-
-
-@app.route("/analytics", methods=["GET", "POST"])
-def analytics():
-    auth_redirect = check_auth()
-    if auth_redirect:
-        return auth_redirect
-
-    if request.method == "POST":
-        results_file = request.files.get("results_file")
-
-        if not results_file or results_file.filename == "":
-            return render_template("analytics.html", error="לא נבחר קובץ.")
-
-        try:
-            df = read_uploaded_dataframe(results_file)
-            summary, tables, charts = build_analytics_payload(df)
-
-            return render_template(
-                "analytics.html",
-                summary=summary,
-                tables=tables,
-                charts=charts,
-                success="הקובץ נותח בהצלחה והנתונים עודכנו בפאנל המרצים."
-            )
-
-        except Exception as e:
-            print("ANALYTICS ERROR:", e)
-            return render_template(
-                "analytics.html",
-                error=f"שגיאה בניתוח הקובץ: {e}"
-            )
-
-    return render_template("analytics.html")
-
-
-@app.route("/placement-system")
-def placement_system():
-    auth_redirect = check_auth()
-    if auth_redirect:
-        return auth_redirect
-
-    return redirect("https://www.studentsplacement.org/")
-
-
-@app.route("/students-form")
-def students_form():
-    return redirect("https://www.studentssurvey.org")
-
-
-@app.route("/mentors-form")
-def mentors_form():
-    return redirect("https://mentormappingsurvey.org")
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
+.danger-reset-btn:active {
+  transform: translateY(0);
+}
