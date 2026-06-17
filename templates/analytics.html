@@ -7,9 +7,9 @@
 
 {% block content %}
 
-<div class="analytics-page">
+<div class="analytics-page clean-panel">
 
-  <div class="page-header analytics-header">
+  <div class="page-header compact-header">
     <span class="eyebrow">דוחות ובקרה</span>
     <h1>ניתוחים סטטיסטיים</h1>
     <p class="subtitle">
@@ -17,15 +17,15 @@
     </p>
   </div>
 
-  <section class="card analytics-upload-card">
+  <section class="card compact-card analytics-upload-card-clean">
     <form
       method="post"
       action="{{ url_for('analytics') }}"
       enctype="multipart/form-data"
-      class="upload-form analytics-upload"
+      class="analytics-upload-clean"
     >
-      <div class="field file-field">
-        <label for="results_file_input" class="file-upload-btn">
+      <div class="file-field-clean">
+        <label for="results_file_input" class="file-upload-btn-clean">
           📁 בחירת קובץ שיבוץ
         </label>
 
@@ -54,7 +54,7 @@
 
   {% if summary %}
 
-  <section class="analytics-summary">
+  <section class="analytics-summary clean-mini-grid">
     <div class="mini-stat">
       <span>👩‍🎓</span>
       <small>סטודנטים</small>
@@ -92,10 +92,10 @@
     </div>
   </section>
 
-  <section class="card insights-card">
+  <section class="card compact-card insights-card">
     <div class="section-heading">
       <h2>תובנות מרכזיות</h2>
-      <p class="section-sub">סיכום מהיר של מצב השיבוץ לפי הקובץ שהועלה</p>
+      <p class="section-sub">סיכום מהיר של מצב השיבוץ לפי הקובץ שהועלה.</p>
     </div>
 
     <div class="insights-grid">
@@ -131,13 +131,13 @@
     </div>
   </section>
 
-  <section class="card chart-control-card">
+  <section class="card compact-card chart-control-card">
     <div class="section-heading">
       <h2>בחירת ניתוח להצגה</h2>
-      <p class="section-sub">אפשר לבחור גרף מסוים או לחפש לפי שם ניתוח</p>
+      <p class="section-sub">אפשר לבחור גרף מסוים או לחפש לפי שם ניתוח.</p>
     </div>
 
-    <div class="chart-controls">
+    <div class="chart-controls-clean">
       <div class="field">
         <label for="chart-type">איזה גרף להציג?</label>
         <select id="chart-type">
@@ -160,9 +160,9 @@
     </div>
   </section>
 
-  <section class="analytics-charts">
+  <section class="analytics-charts-clean">
 
-    <div class="card chart-card analysis-block" data-chart-key="sites" data-chart-title="סטודנטים לפי מקום התמחות">
+    <div class="card compact-card chart-card analysis-block" data-chart-key="sites" data-chart-title="סטודנטים לפי מקום התמחות">
       <h2>סטודנטים לפי מקום התמחות</h2>
       <p class="section-sub">כמה סטודנטים שובצו בכל מקום הכשרה.</p>
       <div class="chart-container large">
@@ -170,7 +170,7 @@
       </div>
     </div>
 
-    <div class="card chart-card analysis-block" data-chart-key="fields" data-chart-title="סטודנטים לפי תחום התמחות">
+    <div class="card compact-card chart-card analysis-block" data-chart-key="fields" data-chart-title="סטודנטים לפי תחום התמחות">
       <h2>סטודנטים לפי תחום התמחות</h2>
       <p class="section-sub">התפלגות הסטודנטים לפי תחומי ההתמחות.</p>
       <div class="chart-container">
@@ -179,7 +179,7 @@
     </div>
 
     {% if charts.score_labels|length > 0 %}
-    <div class="card chart-card analysis-block" data-chart-key="scores" data-chart-title="התפלגות ציוני התאמה">
+    <div class="card compact-card chart-card analysis-block" data-chart-key="scores" data-chart-title="התפלגות ציוני התאמה">
       <h2>התפלגות ציוני התאמה</h2>
       <p class="section-sub">חלוקה לפי טווחי ציונים.</p>
       <div class="chart-container">
@@ -189,7 +189,7 @@
     {% endif %}
 
     {% if charts.avg_labels|length > 0 %}
-    <div class="card chart-card analysis-block" data-chart-key="avg" data-chart-title="ממוצע התאמה לפי מקום">
+    <div class="card compact-card chart-card analysis-block" data-chart-key="avg" data-chart-title="ממוצע התאמה לפי מקום">
       <h2>ממוצע התאמה לפי מקום התמחות</h2>
       <p class="section-sub">איפה ממוצע ההתאמה גבוה יותר ואיפה כדאי לבדוק שוב.</p>
       <div class="chart-container large">
@@ -198,7 +198,7 @@
     </div>
     {% endif %}
 
-    <div class="card chart-card analysis-block" data-chart-key="manual" data-chart-title="שיבוץ אוטומטי מול עדכון ידני">
+    <div class="card compact-card chart-card analysis-block" data-chart-key="manual" data-chart-title="שיבוץ אוטומטי מול עדכון ידני">
       <h2>שיבוץ אוטומטי מול עדכון ידני</h2>
       <p class="section-sub">כמה שיבוצים נשארו כפי שהמערכת הציעה וכמה שונו ידנית.</p>
       <div class="chart-container small-chart">
@@ -207,7 +207,7 @@
     </div>
 
     {% if charts.mentor_labels|length > 0 %}
-    <div class="card chart-card analysis-block" data-chart-key="mentors" data-chart-title="עומס לפי מדריך">
+    <div class="card compact-card chart-card analysis-block" data-chart-key="mentors" data-chart-title="עומס לפי מדריך">
       <h2>עומס לפי מדריך</h2>
       <p class="section-sub">מספר הסטודנטים המשויכים לכל מדריך/ה.</p>
       <div class="chart-container large">
@@ -218,10 +218,10 @@
 
   </section>
 
-  <section class="card tables-card">
+  <section class="card compact-card tables-card">
     <div class="section-heading">
       <h2>טבלאות נתונים</h2>
-      <p class="section-sub">פירוט מספרי מלא לפי מקום, תחום, מדריך וציוני התאמה</p>
+      <p class="section-sub">פירוט מספרי מלא לפי מקום, תחום, מדריך וציוני התאמה.</p>
     </div>
 
     <details open>
@@ -324,15 +324,16 @@
           <thead>
             <tr>
               {% for key in tables.low_students[0].keys() %}
-                <th>{{ key }}</th>
+              <th>{{ key }}</th>
               {% endfor %}
             </tr>
           </thead>
+
           <tbody>
             {% for r in tables.low_students %}
             <tr>
               {% for key, value in r.items() %}
-                <td>{{ value }}</td>
+              <td>{{ value }}</td>
               {% endfor %}
             </tr>
             {% endfor %}
@@ -347,7 +348,7 @@
   const charts = {{ charts|tojson }};
 
   Chart.defaults.font.family = "'Heebo', system-ui, sans-serif";
-  Chart.defaults.font.size = 15;
+  Chart.defaults.font.size = 14;
   Chart.defaults.color = "#374151";
 
   const primary = "#d76fd4";
@@ -376,33 +377,11 @@
         maintainAspectRatio: false,
         indexAxis: horizontal ? "y" : "x",
         plugins: {
-          legend: {
-            position: "top",
-            labels: {
-              font: {
-                size: 15,
-                weight: "bold"
-              }
-            }
-          }
+          legend: { position: "top" }
         },
         scales: {
-          x: {
-            beginAtZero: true,
-            ticks: {
-              font: {
-                size: 14
-              }
-            }
-          },
-          y: {
-            beginAtZero: true,
-            ticks: {
-              font: {
-                size: 14
-              }
-            }
-          }
+          x: { beginAtZero: true },
+          y: { beginAtZero: true }
         }
       }
     });
@@ -420,11 +399,11 @@
           label: label,
           data: values,
           borderColor: primary,
-          backgroundColor: "rgba(155, 107, 255, 0.18)",
+          backgroundColor: "rgba(155, 107, 255, 0.16)",
           borderWidth: 3,
           tension: 0.35,
           fill: true,
-          pointRadius: 5
+          pointRadius: 4
         }]
       },
       options: {
@@ -435,17 +414,7 @@
             beginAtZero: true,
             suggestedMax: 100,
             ticks: {
-              callback: value => value + "%",
-              font: {
-                size: 14
-              }
-            }
-          },
-          x: {
-            ticks: {
-              font: {
-                size: 14
-              }
+              callback: value => value + "%"
             }
           }
         }
@@ -472,15 +441,7 @@
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: {
-            position: "bottom",
-            labels: {
-              font: {
-                size: 15,
-                weight: "bold"
-              }
-            }
-          }
+          legend: { position: "bottom" }
         }
       }
     });
