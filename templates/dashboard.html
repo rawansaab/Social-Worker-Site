@@ -106,6 +106,17 @@
         <strong>זמן עדכון אחרון:</strong>
         <span>{{ stats.last_update }}</span>
       </div>
+
+      <form
+        method="post"
+        action="{{ url_for('reset_dashboard_data') }}"
+        class="reset-dashboard-form"
+        onsubmit="return confirm('האם את בטוחה שברצונך לאפס את נתוני הפאנל?');"
+      >
+        <button type="submit" class="danger-reset-btn">
+          איפוס נתוני הפאנל
+        </button>
+      </form>
     </div>
   </section>
 
