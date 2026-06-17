@@ -1884,3 +1884,90 @@ table th {
     padding: 24px 20px 28px !important;
   }
 }
+# ======================================================
+# אזור מרצים
+# ======================================================
+
+def check_auth():
+    if "lecturer_email" not in session:
+        flash("נא להתחבר למערכת המרצים תחילה.", "error")
+        return redirect(url_for("login"))
+    return None
+
+
+@app.route("/dashboard")
+def dashboard():
+    auth_redirect = check_auth()
+    if auth_redirect:
+        return auth_redirect
+
+    stats = load_dashboard_stats()
+    return render_template("dashboard.html", stats=stats)
+
+
+@app.route("/reset-dashboard-data", methods=["POST"])
+def reset_dashboard_data():
+    auth_redirect = check_auth()
+    if auth_redirect:
+        return auth_redirect
+
+    save_dashboard_stats(default_dashboard_stats())
+    flash("נתוני הפאנל אופסו בהצלחה.", "success")
+    return redirect(url_for("dashboard"))
+
+
+@app.route("/analytics", methods=["GET", "POST"])
+def analytics():
+    auth_redirect = check_auth()
+    if auth_redirect:
+        return auth_redirect
+
+    if request.method == "POST":
+        results_file = request.files.get("results_file")
+
+        if not results_file or results_file.filename == "":
+            return render_template("analytics.html", error="לא נבחר קובץ.")
+
+        try:
+            df = read_uploaded_dataframe(results_file)
+            summary, tables, charts = build_analytics_payload(df)
+
+            return render_template(
+                "analytics.html",
+                summary=summary,
+                tables=tables,
+                charts=charts,
+                success="הקובץ נותח בהצלחה והנתונים עודכנו בפאנל המרצים."
+            )
+
+        except Exception as e:
+            print("ANALYTICS ERROR:", e)
+            return render_template(
+                "analytics.html",
+                error=f"שגיאה בניתוח הקובץ: {e}"
+            )
+
+    return render_template("analytics.html")
+
+
+@app.route("/placement-system")
+def placement_system():
+    auth_redirect = check_auth()
+    if auth_redirect:
+        return auth_redirect
+
+    return redirect("https://www.studentsplacement.org/")
+
+
+@app.route("/students-form")
+def students_form():
+    return redirect("https://www.studentssurvey.org")
+
+
+@app.route("/mentors-form")
+def mentors_form():
+    return redirect("https://mentormappingsurvey.org")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
