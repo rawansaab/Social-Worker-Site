@@ -1808,3 +1808,79 @@ table th {
     margin-top: 22px;
   }
 }
+/* =====================================================
+   תיקון רק לחלק: בחירת ניתוח להצגה
+===================================================== */
+
+.chart-control-card {
+  padding: 30px 32px 34px !important;
+  overflow: hidden;
+}
+
+.chart-control-card .section-heading {
+  margin-bottom: 22px;
+}
+
+.chart-control-card .section-heading,
+.chart-control-card .section-heading h2,
+.chart-control-card .section-heading .section-sub {
+  text-align: right !important;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.chart-controls-clean {
+  width: 100%;
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #eadcff;
+  border-radius: 22px;
+  background: #fbfaff;
+
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr) 120px;
+  gap: 16px;
+  align-items: end;
+}
+
+.chart-controls-clean .field {
+  width: 100%;
+  min-width: 0;
+}
+
+.chart-controls-clean label {
+  display: block;
+  margin-bottom: 8px;
+  color: #111827;
+  font-weight: 900;
+  text-align: right;
+}
+
+.chart-controls-clean select,
+.chart-controls-clean input {
+  width: 100%;
+  height: 56px;
+  min-height: 56px;
+  border-radius: 18px;
+  border: 1px solid #eadcff;
+  background: #ffffff;
+}
+
+.chart-controls-clean .reset-btn {
+  width: 100%;
+  height: 56px;
+  min-height: 56px;
+  border-radius: 18px;
+  align-self: end;
+}
+
+/* למסכים קטנים */
+@media (max-width: 900px) {
+  .chart-controls-clean {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-control-card {
+    padding: 24px 20px 28px !important;
+  }
+}
