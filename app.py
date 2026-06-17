@@ -42,15 +42,14 @@ def normalize_column_name(value):
 
 
 def find_col(df, options):
-    """
-    מחפש עמודה גם אם יש רווחים או הבדלים קטנים בשם.
-    """
     clean_map = {}
+
     for col in df.columns:
         clean_map[normalize_column_name(col)] = col
 
     for opt in options:
         opt_clean = normalize_column_name(opt)
+
         if opt_clean in clean_map:
             return clean_map[opt_clean]
 
@@ -111,9 +110,6 @@ def read_uploaded_dataframe(uploaded_file):
 
 
 def normalize_analytics_columns(df):
-    """
-    הופך שמות עמודות שונים לשמות אחידים כדי שהניתוח יעבוד גם אם הקובץ הגיע ממערכת אחרת.
-    """
     df = df.copy()
     df.columns = [normalize_column_name(c) for c in df.columns]
 
@@ -290,16 +286,10 @@ def build_analytics_payload(df):
 
     if has_score and not score_df.empty:
         avg_score_num = round(score_df["אחוז התאמה"].mean(), 1)
-        median_score_num = round(score_df["אחוז התאמה"].median(), 1)
-        min_score_num = round(score_df["אחוז התאמה"].min(), 1)
-        max_score_num = round(score_df["אחוז התאמה"].max(), 1)
         low_score_count = int((score_df["אחוז התאמה"] < 60).sum())
         high_score_count = int((score_df["אחוז התאמה"] >= 85).sum())
     else:
         avg_score_num = 0
-        median_score_num = 0
-        min_score_num = 0
-        max_score_num = 0
         low_score_count = 0
         high_score_count = 0
 
@@ -390,12 +380,8 @@ def build_analytics_payload(df):
         "placements_done": placements_done,
         "registered_sites": registered_sites,
         "registered_mentors": registered_mentors,
-        "fields_count": int(df["תחום התמחות"].nunique()),
         "success_rate": f"{success_rate_num}%",
         "avg_score": f"{avg_score_num}%",
-        "median_score": f"{median_score_num}%",
-        "min_score": f"{min_score_num}%",
-        "max_score": f"{max_score_num}%",
         "manual_count": manual_count,
         "auto_count": auto_count,
         "low_score_count": low_score_count,
@@ -761,12 +747,14 @@ def check_auth():
     if "lecturer_email" not in session:
         flash("נא להתחבר למערכת המרצים תחילה.", "error")
         return redirect(url_for("login"))
+
     return None
 
 
 @app.route("/dashboard")
 def dashboard():
     auth_redirect = check_auth()
+
     if auth_redirect:
         return auth_redirect
 
@@ -774,9 +762,22 @@ def dashboard():
     return render_template("dashboard.html", stats=stats)
 
 
+@app.route("/reset-dashboard-data", methods=["POST"])
+def reset_dashboard_data():
+    auth_redirect = check_auth()
+
+    if auth_redirect:
+        return auth_redirect
+
+    save_dashboard_stats(default_dashboard_stats())
+    flash("נתוני הפאנל אופסו בהצלחה.", "success")
+    return redirect(url_for("dashboard"))
+
+
 @app.route("/analytics", methods=["GET", "POST"])
 def analytics():
     auth_redirect = check_auth()
+
     if auth_redirect:
         return auth_redirect
 
@@ -811,6 +812,7 @@ def analytics():
 @app.route("/placement-system")
 def placement_system():
     auth_redirect = check_auth()
+
     if auth_redirect:
         return auth_redirect
 
