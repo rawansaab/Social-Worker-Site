@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=50">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=70">
 
   {% block head %}{% endblock %}
 </head>
@@ -17,20 +17,33 @@
 <body class="lecturer-area">
 
 <header class="lecturer-header">
-  <a href="{{ url_for('dashboard') }}" class="lecturer-logo">
-    <img src="{{ url_for('static', filename='images/images.png') }}" alt="לוגו מכללת צפת" class="logo-image">
-    <div>
-      <div class="logo-title">מערכת שיבוץ</div>
-      <div class="logo-sub">אזור מרצים</div>
-    </div>
-  </a>
+  <div class="lecturer-header-inner">
+    <a href="{{ url_for('dashboard') }}" class="lecturer-logo">
+      <img src="{{ url_for('static', filename='images/images.png') }}" alt="לוגו מכללת צפת" class="logo-image">
+      <div>
+        <div class="logo-title">מערכת שיבוץ</div>
+        <div class="logo-sub">אזור מרצים</div>
+      </div>
+    </a>
 
-  <nav class="lecturer-nav">
-    <a href="{{ url_for('dashboard') }}">פאנל מרצים</a>
-    <a href="{{ url_for('analytics') }}">ניתוחים סטטיסטיים</a>
-    <a href="{{ url_for('placement_system') }}" target="_blank">מערכת השיבוץ</a>
-    <a href="{{ url_for('logout') }}" class="btn-outline">יציאה</a>
-  </nav>
+    <nav class="lecturer-nav" aria-label="ניווט באזור המרצים">
+      <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+        פאנל מרצים
+      </a>
+
+      <a href="{{ url_for('analytics') }}" class="{% if request.endpoint == 'analytics' %}active{% endif %}">
+        ניתוחים סטטיסטיים
+      </a>
+
+      <a href="{{ url_for('placement_system') }}" target="_blank" rel="noopener noreferrer">
+        מערכת השיבוץ
+      </a>
+
+      <a href="{{ url_for('logout') }}" class="logout-link">
+        יציאה
+      </a>
+    </nav>
+  </div>
 </header>
 
 <main class="lecturer-content">
@@ -47,5 +60,6 @@
   {% block content %}{% endblock %}
 </main>
 
+{% block scripts %}{% endblock %}
 </body>
 </html>
