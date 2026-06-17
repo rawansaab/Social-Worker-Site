@@ -4,7 +4,6 @@
   --surface-soft: #fbfaff;
 
   --primary: #d76fd4;
-  --primary-dark: #b652b4;
   --accent: #9b6bff;
   --success: #10b981;
   --danger: #ef4444;
@@ -14,17 +13,17 @@
   --border: #e5e7eb;
   --border-soft: #eadcff;
 
-  --radius-xl: 32px;
+  --radius-xl: 30px;
   --radius-lg: 24px;
   --radius: 18px;
 
   --shadow-soft: 0 10px 28px rgba(15, 23, 42, 0.06);
-  --shadow-card: 0 8px 22px rgba(15, 23, 42, 0.055);
+  --shadow-card: 0 8px 24px rgba(15, 23, 42, 0.055);
   --grad-main: linear-gradient(90deg, var(--primary), var(--accent));
 }
 
 /* =========================
-   Base
+   בסיס כללי
 ========================= */
 
 *,
@@ -77,7 +76,7 @@ section {
 }
 
 /* =========================
-   Typography
+   טיפוגרפיה
 ========================= */
 
 h1,
@@ -88,7 +87,7 @@ p {
 }
 
 h1 {
-  font-size: clamp(2.2rem, 4vw, 3.3rem);
+  font-size: clamp(2.1rem, 4vw, 3.25rem);
   line-height: 1.2;
   font-weight: 900;
   letter-spacing: -0.03em;
@@ -97,7 +96,7 @@ h1 {
 }
 
 h2 {
-  font-size: clamp(1.55rem, 2.3vw, 2rem);
+  font-size: clamp(1.55rem, 2.2vw, 1.95rem);
   line-height: 1.3;
   font-weight: 900;
   text-align: center;
@@ -105,14 +104,14 @@ h2 {
 }
 
 h3 {
-  font-size: 1.15rem;
+  font-size: 1.12rem;
   font-weight: 850;
 }
 
 .subtitle,
 .section-sub {
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: 1.04rem;
   line-height: 1.75;
   text-align: center;
   max-width: 820px;
@@ -147,7 +146,7 @@ h3 {
 
 .section-heading {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .section-heading h2 {
@@ -230,7 +229,7 @@ h3 {
 }
 
 /* =========================
-   Buttons
+   כפתורים
 ========================= */
 
 .btn-primary,
@@ -246,7 +245,7 @@ h3 {
   justify-content: center;
   gap: 8px;
   min-height: 48px;
-  padding: 12px 26px;
+  padding: 12px 24px;
   border-radius: 999px;
   font-size: 1rem;
   font-weight: 900;
@@ -255,6 +254,8 @@ h3 {
   border: none;
   transition: 0.2s ease;
   line-height: 1.25;
+  max-width: 100%;
+  white-space: nowrap;
 }
 
 .btn-primary,
@@ -294,7 +295,7 @@ h3 {
 
 .btn-light {
   background: #ffffff;
-  color: var(--primary-dark);
+  color: #b652b4;
 }
 
 .btn-light-outline {
@@ -308,7 +309,6 @@ h3 {
 }
 
 .btn-row,
-.quick-buttons,
 .hero-actions,
 .cta-actions {
   display: flex;
@@ -319,7 +319,7 @@ h3 {
 }
 
 /* =========================
-   Public Home Page
+   דף הבית
 ========================= */
 
 .hero {
@@ -434,6 +434,7 @@ h3 {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
 .field label,
@@ -457,6 +458,7 @@ select {
   font-size: 1rem;
   outline: none;
   transition: 0.2s ease;
+  min-width: 0;
 }
 
 input:focus,
@@ -563,7 +565,7 @@ select:focus {
 }
 
 /* =========================
-   Flash / Alerts
+   Alerts
 ========================= */
 
 .flash-wrap {
@@ -747,6 +749,24 @@ body.lecturer-area {
   text-align: center;
 }
 
+/* תיקון הכפתורים בפעולות מהירות */
+.quick-buttons {
+  width: 100%;
+  max-width: 640px;
+  margin: 18px auto 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.quick-buttons .primary-btn,
+.quick-buttons .secondary-btn {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
 .update-pill,
 .dashboard-update-box {
   display: inline-flex;
@@ -779,17 +799,19 @@ body.lecturer-area {
 
 .analytics-upload-card,
 .analytics-upload-card-clean {
-  max-width: 760px;
+  max-width: 820px;
   margin-top: 10px;
   margin-bottom: 26px;
 }
 
+/* תיקון תיבת העלאת קובץ */
 .analytics-upload,
 .analytics-upload-clean {
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) 170px;
   gap: 16px;
-  align-items: center;
+  align-items: start;
 }
 
 #results_file_input {
@@ -801,16 +823,17 @@ body.lecturer-area {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
 .file-upload-btn,
 .file-upload-btn-clean {
   width: 100%;
-  display: inline-flex;
+  height: 54px;
+  display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 52px;
-  padding: 12px 22px;
+  padding: 0 22px;
   border-radius: 999px;
   border: 1px solid var(--border-soft);
   background: #ffffff;
@@ -819,12 +842,23 @@ body.lecturer-area {
   font-weight: 900;
   cursor: pointer;
   transition: 0.2s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .file-upload-btn:hover,
 .file-upload-btn-clean:hover {
   background: #f7f3ff;
   color: var(--accent);
+}
+
+.analytics-upload .primary-btn,
+.analytics-upload-clean .primary-btn {
+  width: 170px;
+  height: 54px;
+  padding: 0 18px;
+  align-self: start;
 }
 
 .analytics-summary,
@@ -1170,6 +1204,11 @@ table th {
   .clean-mini-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .analytics-upload .primary-btn,
+  .analytics-upload-clean .primary-btn {
+    width: 100%;
+  }
 }
 
 @media (max-width: 620px) {
@@ -1189,9 +1228,8 @@ table th {
     padding: 20px;
   }
 
-  .quick-buttons,
-  .btn-row {
-    flex-direction: column;
+  .quick-buttons {
+    grid-template-columns: 1fr;
   }
 
   .primary-btn,
