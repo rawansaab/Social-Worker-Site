@@ -7,26 +7,42 @@
 
 {% block content %}
 
-<div class="analytics-page clean-panel">
+<div class="analytics-page clean-panel panel-shell">
 
-  <div class="page-header compact-header">
-    <span class="eyebrow">דוחות ובקרה</span>
-    <h1>ניתוחים סטטיסטיים</h1>
-    <p class="subtitle">
-      העלו קובץ תוצאות שיבוץ CSV/XLSX וקבלו תמונת מצב חכמה על השיבוץ.
-    </p>
-  </div>
+  <section class="analytics-hero-card dashboard-hero-card">
+    <div class="hero-content-block">
+      <span class="eyebrow">דוחות ובקרה</span>
 
-  <section class="card compact-card analytics-upload-card-clean">
+      <h1>ניתוחים סטטיסטיים</h1>
+
+      <p class="subtitle">
+        העלו קובץ תוצאות שיבוץ CSV/XLSX וקבלו תמונת מצב חכמה על איכות השיבוץ,
+        התפלגות מקומות ההתמחות, מדריכים, תחומים ואחוזי התאמה.
+      </p>
+    </div>
+
+    <div class="hero-side-card">
+      <div class="hero-side-icon">📁</div>
+      <strong>קובץ נתמך</strong>
+      <span>ניתן להעלות קבצי CSV, XLSX או XLS. אחרי הניתוח הנתונים יתעדכנו גם בפאנל המרצים.</span>
+    </div>
+  </section>
+
+  <section class="card compact-card analytics-upload-card-clean upload-pro-card">
     <form
       method="post"
       action="{{ url_for('analytics') }}"
       enctype="multipart/form-data"
-      class="analytics-upload-clean"
+      class="analytics-upload-clean upload-pro-form"
     >
       <div class="file-field-clean">
         <label for="results_file_input" class="file-upload-btn-clean">
-          📁 בחירת קובץ שיבוץ
+          <span class="file-icon">📎</span>
+
+          <span class="file-main">
+            <strong>בחירת קובץ שיבוץ</strong>
+            <small>CSV / XLSX / XLS</small>
+          </span>
         </label>
 
         <input
@@ -37,7 +53,7 @@
           required
         >
 
-        <div id="file-name-display" class="field-note">לא נבחר קובץ</div>
+        <div id="file-name-display" class="field-note file-name-chip">לא נבחר קובץ</div>
       </div>
 
       <button class="primary-btn" type="submit">נתח קובץ</button>
@@ -93,7 +109,7 @@
   </section>
 
   <section class="card compact-card insights-card">
-    <div class="section-heading">
+    <div class="section-heading right-heading">
       <h2>תובנות מרכזיות</h2>
       <p class="section-sub">סיכום מהיר של מצב השיבוץ לפי הקובץ שהועלה.</p>
     </div>
@@ -132,7 +148,7 @@
   </section>
 
   <section class="card compact-card chart-control-card">
-    <div class="section-heading">
+    <div class="section-heading right-heading">
       <h2>בחירת ניתוח להצגה</h2>
       <p class="section-sub">אפשר לבחור גרף מסוים או לחפש לפי שם ניתוח.</p>
     </div>
@@ -219,7 +235,7 @@
   </section>
 
   <section class="card compact-card tables-card">
-    <div class="section-heading">
+    <div class="section-heading right-heading">
       <h2>טבלאות נתונים</h2>
       <p class="section-sub">פירוט מספרי מלא לפי מקום, תחום, מדריך וציוני התאמה.</p>
     </div>
@@ -349,10 +365,10 @@
 
   Chart.defaults.font.family = "'Heebo', system-ui, sans-serif";
   Chart.defaults.font.size = 14;
-  Chart.defaults.color = "#374151";
+  Chart.defaults.color = "#334155";
 
-  const primary = "#d76fd4";
-  const accent = "#9b6bff";
+  const primary = "#2563eb";
+  const accent = "#7c3aed";
   const successColor = "#10b981";
 
   function createBarChart(canvasId, labels, values, label, horizontal = false) {
@@ -366,7 +382,7 @@
         datasets: [{
           label: label,
           data: values,
-          backgroundColor: "rgba(155, 107, 255, 0.35)",
+          backgroundColor: "rgba(37, 99, 235, 0.22)",
           borderColor: primary,
           borderWidth: 1.5,
           borderRadius: 8
@@ -380,8 +396,8 @@
           legend: { position: "top" }
         },
         scales: {
-          x: { beginAtZero: true },
-          y: { beginAtZero: true }
+          x: { beginAtZero: true, grid: { color: "rgba(148, 163, 184, 0.22)" } },
+          y: { beginAtZero: true, grid: { color: "rgba(148, 163, 184, 0.22)" } }
         }
       }
     });
@@ -398,8 +414,8 @@
         datasets: [{
           label: label,
           data: values,
-          borderColor: primary,
-          backgroundColor: "rgba(155, 107, 255, 0.16)",
+          borderColor: accent,
+          backgroundColor: "rgba(124, 58, 237, 0.13)",
           borderWidth: 3,
           tension: 0.35,
           fill: true,
@@ -415,8 +431,10 @@
             suggestedMax: 100,
             ticks: {
               callback: value => value + "%"
-            }
-          }
+            },
+            grid: { color: "rgba(148, 163, 184, 0.22)" }
+          },
+          x: { grid: { color: "rgba(148, 163, 184, 0.16)" } }
         }
       }
     });
@@ -432,7 +450,7 @@
         labels: labels,
         datasets: [{
           data: values,
-          backgroundColor: [successColor, primary],
+          backgroundColor: [successColor, accent],
           borderColor: "#ffffff",
           borderWidth: 3
         }]
@@ -494,9 +512,9 @@
 
   if (fileInput && fileNameDisplay) {
     fileInput.addEventListener("change", function() {
-      fileNameDisplay.textContent = this.files && this.files.length
-        ? this.files[0].name
-        : "לא נבחר קובץ";
+      const hasFile = this.files && this.files.length;
+      fileNameDisplay.textContent = hasFile ? this.files[0].name : "לא נבחר קובץ";
+      fileNameDisplay.classList.toggle("has-file", !!hasFile);
     });
   }
   </script>
