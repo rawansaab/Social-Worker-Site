@@ -3,15 +3,28 @@
 
 {% block content %}
 
-<div class="dashboard-page clean-panel">
+<div class="dashboard-page clean-panel panel-shell">
 
-  <div class="page-header compact-header">
-    <span class="eyebrow">אזור מרצים</span>
-    <h1>פאנל מרצים</h1>
-    <p class="subtitle">מרכז ניהול ובקרה לתהליך השיבוץ האוטומטי.</p>
-  </div>
+  <section class="dashboard-hero-card">
+    <div class="hero-content-block">
+      <span class="eyebrow">אזור מרצים</span>
 
-  <section class="stats-grid clean-stats-grid">
+      <h1>פאנל מרצים</h1>
+
+      <p class="subtitle">
+        מרכז ניהול ובקרה לתהליך השיבוץ האוטומטי: סטודנטים, מדריכים,
+        מקומות התמחות, אחוזי הצלחה וממוצעי התאמה.
+      </p>
+    </div>
+
+    <div class="hero-side-card">
+      <div class="hero-side-icon">📌</div>
+      <strong>תמונת מצב עדכנית</strong>
+      <span>הנתונים מתעדכנים לפי קובץ הניתוח האחרון שהועלה במערכת.</span>
+    </div>
+  </section>
+
+  <section class="stats-grid clean-stats-grid dashboard-stats">
     <div class="stat-card stat-highlight">
       <div class="stat-icon">👩‍🎓</div>
       <div class="stat-label">סטודנטים בקובץ האחרון</div>
@@ -55,34 +68,44 @@
     </div>
   </section>
 
-  <section class="card compact-card quick-actions-card">
-    <div class="section-heading">
-      <h2>פעולות מהירות</h2>
-      <p class="section-sub">גישה מהירה לכלי העבודה המרכזיים של המערכת.</p>
+  <section class="lecturer-two-col">
+    <div class="card compact-card pro-actions-card">
+      <div class="section-heading right-heading">
+        <h2>פעולות מהירות</h2>
+        <p class="section-sub">גישה מהירה לכלי העבודה המרכזיים של המערכת.</p>
+      </div>
+
+      <div class="action-grid">
+        <a class="action-tile primary-action" href="{{ url_for('placement_system') }}" target="_blank" rel="noopener noreferrer">
+          <span class="action-icon">🧮</span>
+
+          <span class="action-text">
+            <strong>פתיחת מערכת השיבוץ</strong>
+            <span>הפקת שיבוץ אוטומטי לפי נתוני הסטודנטים והמדריכים.</span>
+          </span>
+        </a>
+
+        <a class="action-tile" href="{{ url_for('analytics') }}">
+          <span class="action-icon">📊</span>
+
+          <span class="action-text">
+            <strong>ניתוח קובץ שיבוץ</strong>
+            <span>העלאת קובץ תוצאות והפקת גרפים, תובנות וטבלאות.</span>
+          </span>
+        </a>
+      </div>
     </div>
 
-    <div class="quick-buttons">
-      <a class="primary-btn" href="{{ url_for('placement_system') }}" target="_blank">
-        🧮 פתיחת מערכת השיבוץ
-      </a>
+    <div class="card compact-card pro-update-card">
+      <div class="section-heading right-heading">
+        <h2>עדכון אחרון</h2>
+        <p class="section-sub">נתוני הפאנל מתעדכנים בהתאם לקובץ הניתוח האחרון שהועלה.</p>
+      </div>
 
-      <a class="secondary-btn" href="{{ url_for('analytics') }}">
-        📊 ניתוח קובץ שיבוץ
-      </a>
-    </div>
-  </section>
-
-  <section class="card compact-card last-update-card">
-    <div class="section-heading">
-      <h2>עדכון אחרון</h2>
-      <p class="section-sub">
-        נתוני הפאנל מתעדכנים בהתאם לקובץ הניתוח האחרון שהועלה.
-      </p>
-    </div>
-
-    <div class="update-pill">
-      <strong>זמן עדכון אחרון:</strong>
-      <span>{{ stats.last_update }}</span>
+      <div class="update-box-pro">
+        <strong>זמן עדכון אחרון:</strong>
+        <span>{{ stats.last_update }}</span>
+      </div>
     </div>
   </section>
 
